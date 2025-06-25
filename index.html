@@ -365,11 +365,63 @@
             display: block;
         }
 
+        /* SVG Icons */
+        .icon {
+            width: 24px;
+            height: 24px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 1.5;
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: var(--space-xs);
+        }
+
+        .icon-large {
+            width: 48px;
+            height: 48px;
+            margin-bottom: var(--space-md);
+        }
+
         /* Animations */
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 53%, 80%, 100% { transform: translateY(0); }
+            40%, 43% { transform: translateY(-8px); }
+            70% { transform: translateY(-4px); }
+            90% { transform: translateY(-2px); }
+        }
+
+        @keyframes wave {
+            0%, 100% { transform: scaleY(1); }
+            50% { transform: scaleY(1.5); }
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .icon-spin { animation: spin 2s linear infinite; }
+        .icon-pulse { animation: pulse 2s ease-in-out infinite; }
+        .icon-bounce { animation: bounce 2s infinite; }
+        .icon-wave { animation: wave 1s ease-in-out infinite; }
+        .icon-rotate { animation: rotate 3s linear infinite; }
+        .icon-float { animation: float 3s ease-in-out infinite; }
 
         /* Responsive Breakpoints */
         @media (max-width: 768px) {
@@ -441,10 +493,22 @@
     <!-- Password Protection -->
     <div id="passwordOverlay" class="password-overlay">
         <div class="password-form">
+            <svg class="icon icon-large icon-pulse" viewBox="0 0 24 24">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                <circle cx="12" cy="16" r="1"/>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
             <h2 class="mb-md">ACCESS CONTROL</h2>
             <p class="mb-md">Enter password to continue</p>
             <input type="password" id="passwordInput" class="password-input" placeholder="Password">
-            <button onclick="checkPassword()" class="password-btn">UNLOCK</button>
+            <button onclick="checkPassword()" class="password-btn">
+                <svg class="icon" viewBox="0 0 24 24">
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                    <rect x="3" y="11" width="18" height="10" rx="2" ry="2"/>
+                    <circle cx="12" cy="16" r="1"/>
+                </svg>
+                UNLOCK
+            </button>
             <div id="passwordError" class="password-error"></div>
         </div>
     </div>
@@ -453,6 +517,9 @@
     <div id="mainApp" class="main-app">
         <div class="grid-container">
             <header class="header">
+                <svg class="icon icon-large icon-bounce" viewBox="0 0 24 24">
+                    <path d="M9 18V5l12-2v13M6 19a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM18 17a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+                </svg>
                 <h1>HIP HOP VISUAL STUDIO</h1>
                 <p>POWERED BY LUMA AI</p>
             </header>
@@ -463,22 +530,86 @@
                     <div class="col-5">
                         <div class="card">
                             <div class="form-group">
-                                <label for="prompt">DESCRIBE YOUR HIP HOP VISUAL:</label>
+                                <label for="prompt">
+                                    <svg class="icon icon-pulse" viewBox="0 0 24 24">
+                                        <path d="M12 2L15.09 8.26L22 9L17 14L18.18 21L12 17.77L5.82 21L7 14L2 9L8.91 8.26L12 2Z"/>
+                                    </svg>
+                                    DESCRIBE YOUR HIP HOP VISUAL:
+                                </label>
                                 <textarea id="prompt" class="input-field textarea" 
                                           placeholder="Vintage turntables spinning vinyl records...">Vintage turntables spinning vinyl records with golden light rays cutting through smoke in a dark NYC basement studio</textarea>
                             </div>
                             
-                            <button id="generateBtn" class="button button-full">GENERATE HIP HOP VISUAL</button>
+                            <button id="generateBtn" class="button button-full">
+                                <svg class="icon icon-rotate" viewBox="0 0 24 24">
+                                    <path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+                                    <path d="M3 3v5h5"/>
+                                    <path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/>
+                                    <path d="M21 21v-5h-5"/>
+                                </svg>
+                                GENERATE HIP HOP VISUAL
+                            </button>
 
                             <div class="form-group">
-                                <label>CLASSIC VIBES:</label>
+                                <label>
+                                    <svg class="icon icon-wave" viewBox="0 0 24 24">
+                                        <path d="M2 10v3"/>
+                                        <path d="M6 6v11"/>
+                                        <path d="M10 3v18"/>
+                                        <path d="M14 8v7"/>
+                                        <path d="M18 5v13"/>
+                                        <path d="M22 10v3"/>
+                                    </svg>
+                                    CLASSIC VIBES:
+                                </label>
                                 <div class="preset-grid">
-                                    <button class="preset-btn" data-prompt="You are a professional hip hop videographer. Create a dynamic 3D scene of vintage turntables spinning vinyl records with golden light rays cutting through thick smoke in a dark NYC basement studio. Format as a cinematic shot with dramatic lighting. Style should be gritty and authentic with warm amber tones. Context: underground 90s hip hop culture, intimate venue setting.">TURNTABLES & VINYL</button>
-                                    <button class="preset-btn" data-prompt="You are a retro music video director. Generate a nostalgic scene featuring a classic boombox with cassette tapes floating around it against an 80s neon grid background. Format as a synthwave-style visual with vibrant colors. Style should be neon-soaked with purple and pink hues, geometric patterns. Context: 1980s street culture, breakdancing era aesthetic.">BOOMBOX DREAMS</button>
-                                    <button class="preset-btn" data-prompt="You are an urban art cinematographer. Create a living graffiti wall scene where colorful paint is dripping and swirling in 3D motion. Format as a time-lapse style transformation. Style should be vibrant and energetic with bold colors bleeding into each other. Context: NYC subway culture, street art coming alive with hip hop energy.">LIVING GRAFFITI</button>
-                                    <button class="preset-btn" data-prompt="You are a concert stage designer. Generate a golden microphone on stage with dramatic spotlight beams cutting through smoke and crowd silhouettes. Format as a wide cinematic shot from audience perspective. Style should be moody with high contrast lighting and atmospheric haze. Context: legendary hip hop venue, iconic performance moment.">SPOTLIGHT STAGE</button>
-                                    <button class="preset-btn" data-prompt="You are a surreal hip hop visual artist. Create a stack of vintage vinyl records morphing and transforming into a city skyline with neon lights. Format as a seamless transition shot. Style should blend realism with abstract elements, urban glow effects. Context: music as the foundation of city culture, records building civilization.">VINYL CITY</button>
-                                    <button class="preset-btn" data-prompt="You are a retro-futuristic video creator. Generate a VHS tape unraveling with the tape transforming into musical notes floating through a purple and pink synthwave environment. Format as a fluid motion graphic. Style should be nostalgic with VHS glitch effects and dreamy gradients. Context: 90s technology meets hip hop, analog warmth with digital dreams.">VHS SYNTHWAVE</button>
+                                    <button class="preset-btn" data-prompt="You are a professional hip hop videographer. Create a dynamic 3D scene of vintage turntables spinning vinyl records with golden light rays cutting through thick smoke in a dark NYC basement studio. Format as a cinematic shot with dramatic lighting. Style should be gritty and authentic with warm amber tones. Context: underground 90s hip hop culture, intimate venue setting.">
+                                        <svg class="icon" viewBox="0 0 24 24">
+                                            <circle cx="12" cy="12" r="10"/>
+                                            <circle cx="12" cy="12" r="3"/>
+                                        </svg>
+                                        TURNTABLES & VINYL
+                                    </button>
+                                    <button class="preset-btn" data-prompt="You are a retro music video director. Generate a nostalgic scene featuring a classic boombox with cassette tapes floating around it against an 80s neon grid background. Format as a synthwave-style visual with vibrant colors. Style should be neon-soaked with purple and pink hues, geometric patterns. Context: 1980s street culture, breakdancing era aesthetic.">
+                                        <svg class="icon" viewBox="0 0 24 24">
+                                            <rect x="4" y="6" width="16" height="10" rx="2"/>
+                                            <circle cx="8" cy="10" r="2"/>
+                                            <circle cx="16" cy="10" r="2"/>
+                                            <path d="M8 14h8"/>
+                                        </svg>
+                                        BOOMBOX DREAMS
+                                    </button>
+                                    <button class="preset-btn" data-prompt="You are an urban art cinematographer. Create a living graffiti wall scene where colorful paint is dripping and swirling in 3D motion. Format as a time-lapse style transformation. Style should be vibrant and energetic with bold colors bleeding into each other. Context: NYC subway culture, street art coming alive with hip hop energy.">
+                                        <svg class="icon" viewBox="0 0 24 24">
+                                            <path d="M18 3a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3H6a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3V6a3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3h12a3 3 0 0 0 3-3 3 3 0 0 0-3-3z"/>
+                                        </svg>
+                                        LIVING GRAFFITI
+                                    </button>
+                                    <button class="preset-btn" data-prompt="You are a concert stage designer. Generate a golden microphone on stage with dramatic spotlight beams cutting through smoke and crowd silhouettes. Format as a wide cinematic shot from audience perspective. Style should be moody with high contrast lighting and atmospheric haze. Context: legendary hip hop venue, iconic performance moment.">
+                                        <svg class="icon" viewBox="0 0 24 24">
+                                            <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/>
+                                            <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                                            <line x1="12" y1="19" x2="12" y2="23"/>
+                                            <line x1="8" y1="23" x2="16" y2="23"/>
+                                        </svg>
+                                        SPOTLIGHT STAGE
+                                    </button>
+                                    <button class="preset-btn" data-prompt="You are a surreal hip hop visual artist. Create a stack of vintage vinyl records morphing and transforming into a city skyline with neon lights. Format as a seamless transition shot. Style should blend realism with abstract elements, urban glow effects. Context: music as the foundation of city culture, records building civilization.">
+                                        <svg class="icon" viewBox="0 0 24 24">
+                                            <path d="M3 21h18"/>
+                                            <path d="M5 21V7l8-4v18"/>
+                                            <path d="M19 21V11l-6-4"/>
+                                        </svg>
+                                        VINYL CITY
+                                    </button>
+                                    <button class="preset-btn" data-prompt="You are a retro-futuristic video creator. Generate a VHS tape unraveling with the tape transforming into musical notes floating through a purple and pink synthwave environment. Format as a fluid motion graphic. Style should be nostalgic with VHS glitch effects and dreamy gradients. Context: 90s technology meets hip hop, analog warmth with digital dreams.">
+                                        <svg class="icon" viewBox="0 0 24 24">
+                                            <rect x="3" y="6" width="18" height="12" rx="2"/>
+                                            <circle cx="7.5" cy="12" r="1.5"/>
+                                            <circle cx="16.5" cy="12" r="1.5"/>
+                                        </svg>
+                                        VHS SYNTHWAVE
+                                    </button>
                                 </div>
                             </div>
                             
@@ -494,42 +625,112 @@
                             <!-- 16:9 Video Container -->
                             <div class="video-container">
                                 <div id="status" class="status">
-                                    <div class="spinner"></div>
+                                    <svg class="icon icon-large icon-spin" viewBox="0 0 24 24">
+                                        <path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+                                        <path d="M3 3v5h5"/>
+                                        <path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/>
+                                        <path d="M21 21v-5h-5"/>
+                                    </svg>
                                     <h3 class="mb-sm">COOKING UP THE BEAT...</h3>
                                     <p id="statusText">Dropping those fresh visuals...</p>
                                 </div>
 
                                 <div id="result" class="result">
                                     <video id="videoPlayer" controls>
-                                        Your browser does not support video playback.
+                                        Your browser does not support video playbook.
                                     </video>
                                     <div class="success">
+                                        <svg class="icon icon-large icon-bounce" viewBox="0 0 24 24">
+                                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                                            <polyline points="22,4 12,14.01 9,11.01"/>
+                                        </svg>
                                         <h3 class="mb-sm">VISUAL DROPPED!</h3>
                                         <p id="promptDisplay"></p>
                                     </div>
                                 </div>
 
                                 <div id="placeholder" class="placeholder">
-                                    <div style="font-size: var(--font-size-lg); margin-bottom: var(--space-md);">♪</div>
+                                    <svg class="icon icon-large icon-float" viewBox="0 0 24 24">
+                                        <path d="M9 18V5l12-2v13M6 19a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM18 17a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+                                    </svg>
                                     <h3 class="mb-sm">YOUR HIP HOP VISUAL WILL DROP HERE</h3>
                                     <p>Describe your vibe and let's create some fire!</p>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Visual Enhancement Card -->
                         <div class="card">
                             <div class="form-group">
-                                <label>VISUAL ENHANCEMENT:</label>
+                                <label>
+                                    <svg class="icon icon-pulse" viewBox="0 0 24 24">
+                                        <circle cx="12" cy="12" r="3"/>
+                                        <path d="M12 1v6M12 17v6M4.22 4.22l4.24 4.24M15.54 15.54l4.24 4.24M1 12h6M17 12h6M4.22 19.78l4.24-4.24M15.54 8.46l4.24-4.24"/>
+                                    </svg>
+                                    VISUAL ENHANCEMENT:
+                                </label>
                                 <div class="preset-grid">
-                                    <button class="preset-btn enhancement-btn" data-enhancement="moody lighting with dramatic shadows and golden hour warmth">GOLDEN HOUR</button>
-                                    <button class="preset-btn enhancement-btn" data-enhancement="high contrast black and white with film grain and vintage texture">B&W FILM GRAIN</button>
-                                    <button class="preset-btn enhancement-btn" data-enhancement="neon lighting with electric blue and purple glows">NEON GLOW</button>
-                                    <button class="preset-btn enhancement-btn" data-enhancement="VHS glitch effects with scan lines and chromatic aberration">VHS GLITCH</button>
-                                    <button class="preset-btn enhancement-btn" data-enhancement="smoky atmospheric haze with volumetric lighting">SMOKE & HAZE</button>
-                                    <button class="preset-btn enhancement-btn" data-enhancement="vinyl record texture overlay with dust and scratches">VINYL TEXTURE</button>
-                                    <button class="preset-btn enhancement-btn" data-enhancement="street art spray paint texture with rough urban surfaces">STREET TEXTURE</button>
-                                    <button class="preset-btn enhancement-btn" data-enhancement="retro 80s chromatic lighting with magenta and cyan tones">SYNTHWAVE</button>
+                                    <button class="preset-btn enhancement-btn" data-enhancement="moody lighting with dramatic shadows and golden hour warmth">
+                                        <svg class="icon" viewBox="0 0 24 24">
+                                            <circle cx="12" cy="12" r="5"/>
+                                            <line x1="12" y1="1" x2="12" y2="3"/>
+                                            <line x1="12" y1="21" x2="12" y2="23"/>
+                                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                                            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                                            <line x1="1" y1="12" x2="3" y2="12"/>
+                                            <line x1="21" y1="12" x2="23" y2="12"/>
+                                            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                                            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                                        </svg>
+                                        GOLDEN HOUR
+                                    </button>
+                                    <button class="preset-btn enhancement-btn" data-enhancement="high contrast black and white with film grain and vintage texture">
+                                        <svg class="icon" viewBox="0 0 24 24">
+                                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                                            <circle cx="9" cy="9" r="2"/>
+                                            <path d="M21 15l-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/>
+                                        </svg>
+                                        B&W FILM GRAIN
+                                    </button>
+                                    <button class="preset-btn enhancement-btn" data-enhancement="neon lighting with electric blue and purple glows">
+                                        <svg class="icon" viewBox="0 0 24 24">
+                                            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                                        </svg>
+                                        NEON GLOW
+                                    </button>
+                                    <button class="preset-btn enhancement-btn" data-enhancement="VHS glitch effects with scan lines and chromatic aberration">
+                                        <svg class="icon" viewBox="0 0 24 24">
+                                            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                                            <line x1="8" y1="21" x2="16" y2="21"/>
+                                            <line x1="12" y1="17" x2="12" y2="21"/>
+                                        </svg>
+                                        VHS GLITCH
+                                    </button>
+                                    <button class="preset-btn enhancement-btn" data-enhancement="smoky atmospheric haze with volumetric lighting">
+                                        <svg class="icon" viewBox="0 0 24 24">
+                                            <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/>
+                                        </svg>
+                                        SMOKE & HAZE
+                                    </button>
+                                    <button class="preset-btn enhancement-btn" data-enhancement="vinyl record texture overlay with dust and scratches">
+                                        <svg class="icon" viewBox="0 0 24 24">
+                                            <circle cx="12" cy="12" r="10"/>
+                                            <circle cx="12" cy="12" r="6"/>
+                                            <circle cx="12" cy="12" r="2"/>
+                                        </svg>
+                                        VINYL TEXTURE
+                                    </button>
+                                    <button class="preset-btn enhancement-btn" data-enhancement="street art spray paint texture with rough urban surfaces">
+                                        <svg class="icon" viewBox="0 0 24 24">
+                                            <path d="M18 3a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3H6a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3V6a3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3h12a3 3 0 0 0 3-3 3 3 0 0 0-3-3z"/>
+                                        </svg>
+                                        STREET TEXTURE
+                                    </button>
+                                    <button class="preset-btn enhancement-btn" data-enhancement="retro 80s chromatic lighting with magenta and cyan tones">
+                                        <svg class="icon" viewBox="0 0 24 24">
+                                            <polygon points="13,2 3,14 12,14 11,22 21,10 12,10"/>
+                                        </svg>
+                                        SYNTHWAVE
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -597,7 +798,7 @@
             isGenerating = true;
             const btn = document.getElementById('generateBtn');
             btn.disabled = true;
-            btn.textContent = '🎵 COOKING UP VISUALS...';
+                            btn.innerHTML = '<svg class="icon icon-spin" viewBox="0 0 24 24"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M21 21v-5h-5"/></svg> COOKING UP VISUALS...';
 
             hideAll();
             document.getElementById('status').classList.add('active');
