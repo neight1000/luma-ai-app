@@ -30,7 +30,8 @@ export default async function handler(req, res) {
     // Updated request body format for Luma AI
     const requestBody = {
       prompt: prompt.trim(),
-      aspect_ratio: aspect_ratio
+      aspect_ratio: aspect_ratio,
+      model: "dream-machine-v1"
     };
 
     console.log('Request body:', JSON.stringify(requestBody, null, 2));
