@@ -25,44 +25,73 @@ export default async function handler(req, res) {
     }
 
     console.log('Creating generation for:', prompt);
+    console.log('Using API key:', apiKey.substring(0, 10) + '...');
+
+    // Updated request body format for Luma AI
+    const requestBody = {
+      prompt: prompt.trim(),
+      aspect_ratio: aspect_ratio
+    };
+
+    console.log('Request body:', JSON.stringify(requestBody, null, 2));
 
     const response = await fetch('https://api.lumalabs.ai/dream-machine/v1/generations', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${apiKey}`,
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
       },
-      body: JSON.stringify({
-        prompt,
-        aspect_ratio
-      })
+      body: JSON.stringify(requestBody)
     });
 
+    const responseText = await response.text();
+    console.log('Response status:', response.status);
+    console.log('Response body:', responseText);
+
     if (!response.ok) {
-      const errorText = await response.text();
-      console.error('Luma API Error:', response.status, errorText);
+      // Try to parse error details
+      let errorDetails = responseText;
+      try {
+        const errorJson = JSON.parse(responseText);
+        errorDetails = errorJson.detail || errorJson.error || errorJson.message || responseText;
+      } catch (parseError) {
+        // Use raw response text
+      }
+
+      console.error('Luma API Error:', response.status, errorDetails);
       
-      if (response.status === 401) {
+      if (response.status === 400) {
+        return res.status(400).json({ 
+          error: `Bad Request: ${errorDetails}`,
+          details: 'Check if your prompt is valid and API key is correct'
+        });
+      } else if (response.status === 401) {
         return res.status(401).json({ error: 'Invalid API key' });
       } else if (response.status === 429) {
         return res.status(429).json({ error: 'Rate limit exceeded' });
       }
       
       return res.status(response.status).json({ 
-        error: `Luma API Error: ${response.status}` 
+        error: `Luma API Error: ${response.status}`,
+        details: errorDetails
       });
     }
 
-    const data = await response.json();
-    console.log('Generation created:', data.id);
+    const data = JSON.parse(responseText);
+    console.log('Generation created successfully:', data.id);
 
     res.json({
       id: data.id,
-      state: data.state || 'queued'
+      state: data.state || 'queued',
+      created_at: data.created_at
     });
 
   } catch (error) {
     console.error('Server error:', error);
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ 
+      error: error.message,
+      details: 'Internal server error'
+    });
   }
 }
