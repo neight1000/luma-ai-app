@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Luma AI Studio - Wide Hollows</title>
+    <title>Hip Hop Visual Studio - Wide Hollows</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         /* Wide Hollows CSS */
@@ -19,7 +19,7 @@
             background: #000;
             color: #f2f2f2;
             font-family: 'Orbitron', monospace;
-            min-height: 100vh;
+            overflow: hidden;
         }
 
         /* Password Protection Overlay */
@@ -39,48 +39,48 @@
         .password-form {
             background: #111;
             border: 2px solid #333;
-            border-radius: 20px;
-            padding: 40px;
-            text-align: center;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.3s, border 0.3s;
             max-width: 400px;
             width: 90%;
         }
 
         .password-form h1 {
+            font-family: 'Orbitron', monospace;
             color: #fff;
-            margin-bottom: 20px;
-            font-size: 2rem;
+            margin-bottom: 1em;
+            font-size: 24px;
         }
 
         .password-input {
-            width: 100%;
-            padding: 15px;
-            border: 2px solid #555;
-            border-radius: 10px;
             background: #222;
+            border: 2px solid #555;
             color: #fff;
+            padding: 10px 20px;
             font-family: 'Orbitron', monospace;
-            font-size: 1.1rem;
-            margin-bottom: 20px;
+            width: 100%;
+            margin-bottom: 1em;
         }
 
         .password-input:focus {
             outline: none;
-            border-color: #fff;
+            background: #fff;
+            color: #000;
         }
 
         .password-btn {
-            width: 100%;
             background: #222;
             border: 2px solid #555;
             color: #fff;
-            padding: 15px 20px;
-            border-radius: 10px;
+            padding: 10px 20px;
             cursor: pointer;
             transition: all 0.3s;
             font-family: 'Orbitron', monospace;
-            font-size: 1.1rem;
-            font-weight: bold;
+            width: 100%;
         }
 
         .password-btn:hover {
@@ -89,16 +89,17 @@
         }
 
         .password-error {
-            color: #ff6b6b;
-            margin-top: 10px;
-            font-size: 0.9rem;
+            font-family: 'Orbitron', monospace;
+            color: #fff;
+            margin-top: 1em;
         }
 
         /* Main App Container */
         .main-app {
             display: none;
-            min-height: 100vh;
-            padding: 20px;
+            width: 100vw;
+            height: 100vh;
+            overflow-y: auto;
         }
 
         .main-app.unlocked {
@@ -107,8 +108,19 @@
 
         /* Containers */
         .container {
-            max-width: 1200px;
-            margin: 0 auto;
+            position: relative;
+            width: 100vw;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+        }
+
+        canvas {
+            border: 4px solid #fff;
+            background-color: #000;
         }
 
         /* Typography */
@@ -129,69 +141,76 @@
         }
 
         .header h1 {
-            font-size: 3rem;
-            font-weight: 900;
-            margin-bottom: 10px;
-            text-shadow: 0 0 20px rgba(255,255,255,0.3);
-        }
-
-        .header p {
-            font-size: 1.2rem;
-            opacity: 0.8;
+            font-size: 24px;
+            margin-bottom: 1em;
         }
 
         /* Card Layout */
         .card-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
-            margin-bottom: 40px;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            padding: 40px;
+            background: #000;
+            width: 100%;
+            max-width: 1200px;
         }
 
         .card {
             background: #111;
             border: 2px solid #333;
-            border-radius: 20px;
-            padding: 30px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             transition: transform 0.3s, border 0.3s;
         }
 
         .card:hover {
-            transform: scale(1.02);
+            transform: scale(1.05);
             border: 2px solid #fff;
         }
 
+        .card img {
+            width: 100%;
+        }
+
+        .card h3 {
+            margin-top: 15px;
+            font-size: 24px;
+        }
+
         .form-group {
-            margin-bottom: 25px;
+            width: 100%;
+            margin-bottom: 1em;
         }
 
         label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 700;
+            font-family: 'Orbitron', monospace;
             color: #fff;
-            font-size: 1.1rem;
+            margin-bottom: 1em;
+            display: block;
         }
 
         .input-field {
-            width: 100%;
-            padding: 15px;
-            border: 2px solid #555;
-            border-radius: 10px;
             background: #222;
+            border: 2px solid #555;
             color: #fff;
-            font-size: 1rem;
+            padding: 10px 20px;
             font-family: 'Orbitron', monospace;
-            transition: border-color 0.3s;
+            width: 100%;
+            transition: all 0.3s;
         }
 
         .input-field:focus {
             outline: none;
-            border-color: #fff;
+            background: #fff;
+            color: #000;
         }
 
         .prompt-input {
-            min-height: 120px;
+            min-height: 100px;
             resize: vertical;
         }
 
@@ -200,64 +219,59 @@
             background: #222;
             border: 2px solid #555;
             color: #fff;
-            padding: 15px 20px;
-            border-radius: 10px;
+            padding: 10px 20px;
             cursor: pointer;
             transition: all 0.3s;
             font-family: 'Orbitron', monospace;
-            font-weight: bold;
-            font-size: 1.1rem;
         }
 
-        .button:hover:not(:disabled) {
+        .button:hover {
             background: #fff;
             color: #000;
-            transform: translateY(-2px);
         }
 
         .button:disabled {
             opacity: 0.5;
             cursor: not-allowed;
-            transform: none;
+        }
+
+        .button:disabled:hover {
+            background: #222;
+            color: #fff;
         }
 
         .generate-btn {
             width: 100%;
-            padding: 20px;
-            font-size: 1.3rem;
-            font-weight: 900;
+            margin-bottom: 1em;
         }
 
         .preset-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 10px;
+            width: 100%;
         }
 
         .preset-btn {
             background: #222;
             border: 2px solid #555;
             color: #fff;
-            padding: 15px;
-            border-radius: 10px;
+            padding: 10px 20px;
             cursor: pointer;
             transition: all 0.3s;
             font-family: 'Orbitron', monospace;
-            font-size: 0.9rem;
             text-align: center;
         }
 
         .preset-btn:hover {
             background: #fff;
             color: #000;
-            transform: scale(1.05);
         }
 
         /* Status and Results */
         .status {
             text-align: center;
-            padding: 30px;
+            width: 100%;
             display: none;
         }
 
@@ -266,17 +280,17 @@
         }
 
         .spinner {
-            width: 60px;
-            height: 60px;
-            border: 4px solid #333;
-            border-top: 4px solid #fff;
-            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            border: 2px solid #555;
+            border-top: 2px solid #fff;
             animation: spin 1s linear infinite;
-            margin: 0 auto 20px;
+            margin: 0 auto 1em;
         }
 
         .result {
             text-align: center;
+            width: 100%;
             display: none;
         }
 
@@ -286,20 +300,18 @@
 
         .result video {
             width: 100%;
-            max-width: 600px;
+            max-width: 500px;
             border: 4px solid #fff;
-            border-radius: 20px;
-            margin-bottom: 20px;
             background-color: #000;
+            margin-bottom: 1em;
         }
 
         .error {
-            background: #220000;
-            color: #ff6b6b;
+            background: #111;
+            border: 2px solid #333;
+            color: #fff;
             padding: 20px;
-            border: 2px solid #ff6b6b;
-            border-radius: 10px;
-            margin-top: 20px;
+            margin-top: 1em;
             display: none;
             font-family: 'Orbitron', monospace;
         }
@@ -309,26 +321,24 @@
         }
 
         .success {
-            background: #002200;
-            color: #4caf50;
+            background: #111;
+            border: 2px solid #333;
+            color: #fff;
             padding: 20px;
-            border: 2px solid #4caf50;
-            border-radius: 10px;
-            margin-top: 20px;
+            margin-top: 1em;
             font-family: 'Orbitron', monospace;
         }
 
         .placeholder {
             text-align: center;
-            padding: 60px 20px;
-            border: 2px dashed #333;
-            border-radius: 20px;
-            color: #666;
+            padding: 20px;
+            color: #f2f2f2;
+            width: 100%;
         }
 
         .placeholder-icon {
-            font-size: 4rem;
-            margin-bottom: 20px;
+            font-size: 48px;
+            margin-bottom: 1em;
         }
 
         /* Animations */
@@ -340,20 +350,13 @@
         /* Responsive Adjustments */
         @media (max-width: 768px) {
             .card-grid {
-                grid-template-columns: 1fr;
-                gap: 20px;
+                grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
             }
-            
-            .header h1 {
-                font-size: 2rem;
+            .card h3 {
+                font-size: 18px;
             }
-            
-            .preset-grid {
-                grid-template-columns: 1fr;
-            }
-
             .container {
-                padding: 10px;
+                padding: 20px;
             }
         }
     </style>
@@ -391,12 +394,12 @@
                     <div class="form-group">
                         <label>📀 CLASSIC VIBES:</label>
                         <div class="preset-grid">
-                            <div class="preset-btn" data-prompt="Vintage turntables spinning vinyl records with golden light rays in a smoky NYC basement">📀 TURNTABLES & VINYL</div>
-                            <div class="preset-btn" data-prompt="Retro boombox with cassette tapes floating around it, 80s neon grid background">📻 BOOMBOX DREAMS</div>
-                            <div class="preset-btn" data-prompt="Graffiti walls coming alive with colorful paint dripping and swirling in 3D motion">🎨 LIVING GRAFFITI</div>
-                            <div class="preset-btn" data-prompt="Golden microphone on stage with spotlight beams cutting through smoke and crowd silhouettes">🎤 SPOTLIGHT STAGE</div>
-                            <div class="preset-btn" data-prompt="Stack of vintage vinyl records morphing into a city skyline with neon lights">🏙️ VINYL CITY</div>
-                            <div class="preset-btn" data-prompt="Retro VHS tape unraveling into musical notes floating through purple and pink synthwave environment">📼 VHS SYNTHWAVE</div>
+                            <div class="preset-btn" data-prompt="You are a professional hip hop videographer. Create a dynamic 3D scene of vintage turntables spinning vinyl records with golden light rays cutting through thick smoke in a dark NYC basement studio. Format as a cinematic shot with dramatic lighting. Style should be gritty and authentic with warm amber tones. Context: underground 90s hip hop culture, intimate venue setting.">📀 TURNTABLES & VINYL</div>
+                            <div class="preset-btn" data-prompt="You are a retro music video director. Generate a nostalgic scene featuring a classic boombox with cassette tapes floating around it against an 80s neon grid background. Format as a synthwave-style visual with vibrant colors. Style should be neon-soaked with purple and pink hues, geometric patterns. Context: 1980s street culture, breakdancing era aesthetic.">📻 BOOMBOX DREAMS</div>
+                            <div class="preset-btn" data-prompt="You are an urban art cinematographer. Create a living graffiti wall scene where colorful paint is dripping and swirling in 3D motion. Format as a time-lapse style transformation. Style should be vibrant and energetic with bold colors bleeding into each other. Context: NYC subway culture, street art coming alive with hip hop energy.">🎨 LIVING GRAFFITI</div>
+                            <div class="preset-btn" data-prompt="You are a concert stage designer. Generate a golden microphone on stage with dramatic spotlight beams cutting through smoke and crowd silhouettes. Format as a wide cinematic shot from audience perspective. Style should be moody with high contrast lighting and atmospheric haze. Context: legendary hip hop venue, iconic performance moment.">🎤 SPOTLIGHT STAGE</div>
+                            <div class="preset-btn" data-prompt="You are a surreal hip hop visual artist. Create a stack of vintage vinyl records morphing and transforming into a city skyline with neon lights. Format as a seamless transition shot. Style should blend realism with abstract elements, urban glow effects. Context: music as the foundation of city culture, records building civilization.">🏙️ VINYL CITY</div>
+                            <div class="preset-btn" data-prompt="You are a retro-futuristic video creator. Generate a VHS tape unraveling with the tape transforming into musical notes floating through a purple and pink synthwave environment. Format as a fluid motion graphic. Style should be nostalgic with VHS glitch effects and dreamy gradients. Context: 90s technology meets hip hop, analog warmth with digital dreams.">📼 VHS SYNTHWAVE</div>
                         </div>
                     </div>
                     
