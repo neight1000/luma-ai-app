@@ -433,6 +433,7 @@
             z-index: 10000;
             display: none;
             transition: all 0.3s ease;
+            max-width: calc(100vw - var(--space-lg) * 2);
         }
 
         .music-player.unlocked {
@@ -441,6 +442,8 @@
 
         .music-player.minimized {
             width: auto;
+            min-width: 200px;
+            max-width: 250px;
             padding: var(--space-sm);
         }
 
@@ -452,8 +455,37 @@
             margin-bottom: 0;
         }
 
-        .music-player.minimized .player-title {
-            display: none;
+        @media (max-width: 768px) {
+            .music-player {
+                top: var(--space-md);
+                right: var(--space-md);
+                width: 240px;
+                max-width: calc(100vw - var(--space-md) * 2);
+            }
+            
+            .music-player.minimized {
+                min-width: 180px;
+                max-width: 200px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .music-player {
+                top: var(--space-sm);
+                right: var(--space-sm);
+                width: 200px;
+                max-width: calc(100vw - var(--space-sm) * 2);
+            }
+            
+            .music-player.minimized {
+                min-width: 160px;
+                max-width: 180px;
+            }
+            
+            .player-title {
+                max-width: 100px;
+                font-size: var(--font-size-sm);
+            }
         }
 
         .player-header {
@@ -1071,9 +1103,12 @@
             </div>
         </div>
 
-        <!-- Hidden audio elements for demo -->
-        <audio id="audioPlayer" loop>
-            <!-- In a real implementation, you'd add actual audio sources here -->
+        <!-- Hidden audio elements -->
+        <audio id="audioPlayer" preload="metadata">
+            <source src="track1.mp3" type="audio/mpeg">
+            <source src="track2.mp3" type="audio/mpeg">
+            <source src="track3.mp3" type="audio/mpeg">
+            <source src="track4.mp3" type="audio/mpeg">
         </audio>
     </div>
 
@@ -1081,14 +1116,23 @@
         // Music Player Functionality
         let isPlaying = false;
         let currentTrackIndex = 0;
-        let isPlayerMinimized = false;
+        let isPlayerMinimized = true;
 
         const tracks = [
-            { title: "Lo-Fi Hip Hop Beat", artist: "Studio Vibes", duration: "2:30" },
-            { title: "Boom Bap Classic", artist: "Studio Vibes", duration: "3:15" },
-            { title: "Trap Vibes", artist: "Studio Vibes", duration: "2:45" },
-            { title: "Old School Groove", artist: "Studio Vibes", duration: "3:00" }
+            { title: "Lo-Fi Hip Hop Beat", artist: "Studio Vibes", duration: "2:30", src: "track1.mp3" },
+            { title: "Boom Bap Classic", artist: "Studio Vibes", duration: "3:15", src: "track2.mp3" },
+            { title: "Trap Vibes", artist: "Studio Vibes", duration: "2:45", src: "track3.mp3" },
+            { title: "Old School Groove", artist: "Studio Vibes", duration: "3:00", src: "track4.mp3" }
         ];
+
+        const audioPlayer = document.getElementById('audioPlayer');
+
+        function loadTrack(index) {
+            if (tracks[index]) {
+                audioPlayer.src = tracks[index].src;
+                audioPlayer.load();
+            }
+        }
 
         function togglePlayer() {
             const player = document.getElementById('musicPlayer');
@@ -1106,27 +1150,38 @@
             const playIcon = document.getElementById('playIcon');
             const pauseIcon = document.getElementById('pauseIcon');
             
-            isPlaying = !isPlaying;
-            
             if (isPlaying) {
-                playIcon.style.display = 'none';
-                pauseIcon.style.display = 'block';
-                // In a real implementation, you'd start audio playback here
-            } else {
+                audioPlayer.pause();
                 playIcon.style.display = 'block';
                 pauseIcon.style.display = 'none';
-                // In a real implementation, you'd pause audio playback here
+                isPlaying = false;
+            } else {
+                audioPlayer.play().then(() => {
+                    playIcon.style.display = 'none';
+                    pauseIcon.style.display = 'block';
+                    isPlaying = true;
+                }).catch(e => {
+                    console.log('Audio play failed:', e);
+                });
             }
         }
 
         function nextTrack() {
             currentTrackIndex = (currentTrackIndex + 1) % tracks.length;
+            loadTrack(currentTrackIndex);
             updateCurrentTrack();
+            if (isPlaying) {
+                audioPlayer.play();
+            }
         }
 
         function previousTrack() {
             currentTrackIndex = (currentTrackIndex - 1 + tracks.length) % tracks.length;
+            loadTrack(currentTrackIndex);
             updateCurrentTrack();
+            if (isPlaying) {
+                audioPlayer.play();
+            }
         }
 
         function updateCurrentTrack() {
@@ -1143,19 +1198,39 @@
             });
         }
 
+        // Audio event listeners
+        audioPlayer.addEventListener('ended', () => {
+            nextTrack();
+        });
+
+        audioPlayer.addEventListener('pause', () => {
+            document.getElementById('playIcon').style.display = 'block';
+            document.getElementById('pauseIcon').style.display = 'none';
+            isPlaying = false;
+        });
+
         // Track list click handlers
         document.querySelectorAll('.track-item').forEach((item, index) => {
             item.addEventListener('click', () => {
                 currentTrackIndex = index;
+                loadTrack(currentTrackIndex);
                 updateCurrentTrack();
+                if (isPlaying) {
+                    audioPlayer.play();
+                }
             });
         });
 
         // Volume control
         document.getElementById('volumeSlider').addEventListener('input', (e) => {
             const volume = e.target.value / 100;
-            // In a real implementation, you'd set audio volume here
-            console.log('Volume set to:', volume);
+            audioPlayer.volume = volume;
+        });
+
+        // Initialize player
+        document.addEventListener('DOMContentLoaded', () => {
+            loadTrack(0);
+            audioPlayer.volume = 0.5;
         });
 
         // Password Protection
