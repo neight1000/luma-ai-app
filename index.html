@@ -3,8 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Luma AI Video Generator</title>
+    <title>Luma AI Studio - Wide Hollows</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
+        /* Wide Hollows CSS */
+
+        /* Global Reset */
         * {
             margin: 0;
             padding: 0;
@@ -12,16 +16,111 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #000;
+            color: #f2f2f2;
+            font-family: 'Orbitron', monospace;
             min-height: 100vh;
-            color: white;
+        }
+
+        /* Password Protection Overlay */
+        .password-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .password-form {
+            background: #111;
+            border: 2px solid #333;
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+
+        .password-form h1 {
+            color: #fff;
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+
+        .password-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #555;
+            border-radius: 10px;
+            background: #222;
+            color: #fff;
+            font-family: 'Orbitron', monospace;
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+        }
+
+        .password-input:focus {
+            outline: none;
+            border-color: #fff;
+        }
+
+        .password-btn {
+            width: 100%;
+            background: #222;
+            border: 2px solid #555;
+            color: #fff;
+            padding: 15px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Orbitron', monospace;
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+
+        .password-btn:hover {
+            background: #fff;
+            color: #000;
+        }
+
+        .password-error {
+            color: #ff6b6b;
+            margin-top: 10px;
+            font-size: 0.9rem;
+        }
+
+        /* Main App Container */
+        .main-app {
+            display: none;
+            min-height: 100vh;
             padding: 20px;
         }
 
+        .main-app.unlocked {
+            display: block;
+        }
+
+        /* Containers */
         .container {
-            max-width: 800px;
+            max-width: 1200px;
             margin: 0 auto;
+        }
+
+        /* Typography */
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Orbitron', monospace;
+            color: #fff;
+        }
+
+        p {
+            font-family: 'Orbitron', monospace;
+            color: #fff;
+            margin-bottom: 1em;
         }
 
         .header {
@@ -30,71 +129,135 @@
         }
 
         .header h1 {
-            font-size: 2.5rem;
+            font-size: 3rem;
+            font-weight: 900;
             margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(255,255,255,0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.8;
+        }
+
+        /* Card Layout */
+        .card-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
         }
 
         .card {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
+            background: #111;
+            border: 2px solid #333;
             border-radius: 20px;
             padding: 30px;
-            margin-bottom: 30px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s, border 0.3s;
+        }
+
+        .card:hover {
+            transform: scale(1.02);
+            border: 2px solid #fff;
         }
 
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
 
         label {
             display: block;
             margin-bottom: 8px;
-            font-weight: 600;
+            font-weight: 700;
+            color: #fff;
+            font-size: 1.1rem;
         }
 
         .input-field {
             width: 100%;
-            padding: 12px;
-            border: none;
-            border-radius: 8px;
-            background: rgba(255, 255, 255, 0.9);
-            color: #333;
+            padding: 15px;
+            border: 2px solid #555;
+            border-radius: 10px;
+            background: #222;
+            color: #fff;
             font-size: 1rem;
+            font-family: 'Orbitron', monospace;
+            transition: border-color 0.3s;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: #fff;
         }
 
         .prompt-input {
-            min-height: 100px;
+            min-height: 120px;
             resize: vertical;
-            font-family: inherit;
         }
 
-        .btn {
-            width: 100%;
-            padding: 15px;
-            border: none;
-            border-radius: 8px;
-            background: #ff6b6b;
-            color: white;
-            font-size: 1.1rem;
-            font-weight: bold;
+        /* Buttons */
+        .button {
+            background: #222;
+            border: 2px solid #555;
+            color: #fff;
+            padding: 15px 20px;
+            border-radius: 10px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.3s;
+            font-family: 'Orbitron', monospace;
+            font-weight: bold;
+            font-size: 1.1rem;
         }
 
-        .btn:hover:not(:disabled) {
-            background: #ee5a24;
+        .button:hover:not(:disabled) {
+            background: #fff;
+            color: #000;
             transform: translateY(-2px);
         }
 
-        .btn:disabled {
-            opacity: 0.6;
+        .button:disabled {
+            opacity: 0.5;
             cursor: not-allowed;
+            transform: none;
         }
 
+        .generate-btn {
+            width: 100%;
+            padding: 20px;
+            font-size: 1.3rem;
+            font-weight: 900;
+        }
+
+        .preset-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .preset-btn {
+            background: #222;
+            border: 2px solid #555;
+            color: #fff;
+            padding: 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Orbitron', monospace;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        .preset-btn:hover {
+            background: #fff;
+            color: #000;
+            transform: scale(1.05);
+        }
+
+        /* Status and Results */
         .status {
             text-align: center;
-            padding: 20px;
+            padding: 30px;
             display: none;
         }
 
@@ -103,13 +266,13 @@
         }
 
         .spinner {
-            width: 40px;
-            height: 40px;
-            border: 3px solid rgba(255,255,255,0.3);
-            border-top: 3px solid white;
+            width: 60px;
+            height: 60px;
+            border: 4px solid #333;
+            border-top: 4px solid #fff;
             border-radius: 50%;
             animation: spin 1s linear infinite;
-            margin: 0 auto 15px;
+            margin: 0 auto 20px;
         }
 
         .result {
@@ -124,17 +287,21 @@
         .result video {
             width: 100%;
             max-width: 600px;
-            border-radius: 12px;
-            margin-bottom: 15px;
+            border: 4px solid #fff;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            background-color: #000;
         }
 
         .error {
-            background: rgba(255, 0, 0, 0.2);
+            background: #220000;
             color: #ff6b6b;
-            padding: 15px;
-            border-radius: 8px;
-            margin-top: 15px;
+            padding: 20px;
+            border: 2px solid #ff6b6b;
+            border-radius: 10px;
+            margin-top: 20px;
             display: none;
+            font-family: 'Orbitron', monospace;
         }
 
         .error.active {
@@ -142,97 +309,163 @@
         }
 
         .success {
-            background: rgba(0, 255, 0, 0.2);
+            background: #002200;
             color: #4caf50;
-            padding: 15px;
-            border-radius: 8px;
-            margin-top: 15px;
+            padding: 20px;
+            border: 2px solid #4caf50;
+            border-radius: 10px;
+            margin-top: 20px;
+            font-family: 'Orbitron', monospace;
         }
 
-        .presets {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 10px;
-            margin-top: 15px;
+        .placeholder {
+            text-align: center;
+            padding: 60px 20px;
+            border: 2px dashed #333;
+            border-radius: 20px;
+            color: #666;
         }
 
-        .preset-btn {
-            padding: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 8px;
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 0.9rem;
+        .placeholder-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
         }
 
-        .preset-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
-
+        /* Animations */
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .card-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .preset-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 10px;
+            }
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>🎬 Luma AI Studio</h1>
-            <p>Generate stunning 3D videos</p>
+    <!-- Password Protection -->
+    <div id="passwordOverlay" class="password-overlay">
+        <div class="password-form">
+            <h1>🔐 ACCESS CONTROL</h1>
+            <p>Enter password to continue</p>
+            <input type="password" id="passwordInput" class="password-input" placeholder="Password">
+            <button onclick="checkPassword()" class="password-btn">UNLOCK</button>
+            <div id="passwordError" class="password-error"></div>
         </div>
+    </div>
 
-        <div class="card">
-            <div class="form-group">
-                <label for="prompt">✨ Describe your 3D scene:</label>
-                <textarea id="prompt" class="input-field prompt-input" 
-                          placeholder="A majestic dragon soaring through clouds...">A steampunk airship flying through cloudy mountains</textarea>
+    <!-- Main Application -->
+    <div id="mainApp" class="main-app">
+        <div class="container">
+            <div class="header">
+                <h1>🎬 LUMA AI STUDIO</h1>
+                <p>WIDE HOLLOWS EDITION</p>
             </div>
-            
-            <button id="generateBtn" class="btn">🎬 Generate Video</button>
 
-            <div class="form-group">
-                <label>🎯 Quick Prompts:</label>
-                <div class="presets">
-                    <div class="preset-btn" data-prompt="A floating island with waterfalls in a magical sky">🏝️ Floating Island</div>
-                    <div class="preset-btn" data-prompt="A cyberpunk city with neon lights at night">🌃 Cyberpunk City</div>
-                    <div class="preset-btn" data-prompt="An underwater coral reef with colorful fish">🐠 Ocean Reef</div>
-                    <div class="preset-btn" data-prompt="A space station orbiting Earth">🚀 Space Station</div>
+            <div class="card-grid">
+                <div class="card">
+                    <div class="form-group">
+                        <label for="prompt">✨ DESCRIBE YOUR 3D SCENE:</label>
+                        <textarea id="prompt" class="input-field prompt-input" 
+                                  placeholder="A steampunk airship flying through cloudy mountains...">A steampunk airship flying through cloudy mountains with golden sunset lighting</textarea>
+                    </div>
+                    
+                    <button id="generateBtn" class="button generate-btn">🎬 GENERATE VIDEO</button>
+
+                    <div class="form-group">
+                        <label>🎯 QUICK PROMPTS:</label>
+                        <div class="preset-grid">
+                            <div class="preset-btn" data-prompt="A floating island with waterfalls in a magical sky">🏝️ FLOATING ISLAND</div>
+                            <div class="preset-btn" data-prompt="A cyberpunk city with neon lights at night">🌃 CYBERPUNK CITY</div>
+                            <div class="preset-btn" data-prompt="An underwater coral reef with colorful fish">🐠 OCEAN REEF</div>
+                            <div class="preset-btn" data-prompt="A space station orbiting Earth">🚀 SPACE STATION</div>
+                            <div class="preset-btn" data-prompt="A magical forest with glowing mushrooms">🌲 MAGICAL FOREST</div>
+                            <div class="preset-btn" data-prompt="A dragon flying through aurora-lit clouds">🐉 DRAGON FLIGHT</div>
+                        </div>
+                    </div>
+                    
+                    <div id="error" class="error">
+                        <p id="errorMessage"></p>
+                    </div>
                 </div>
-            </div>
-            
-            <div id="error" class="error">
-                <p id="errorMessage"></p>
-            </div>
-        </div>
 
-        <div class="card">
-            <div id="status" class="status">
-                <div class="spinner"></div>
-                <p id="statusText">Generating your video...</p>
-            </div>
+                <div class="card">
+                    <div id="status" class="status">
+                        <div class="spinner"></div>
+                        <h3>GENERATING VIDEO...</h3>
+                        <p id="statusText">Initializing generation...</p>
+                    </div>
 
-            <div id="result" class="result">
-                <video id="videoPlayer" controls>
-                    Your browser does not support video playback.
-                </video>
-                <div class="success">
-                    <p><strong>🎉 Generation Complete!</strong></p>
-                    <p id="promptDisplay"></p>
+                    <div id="result" class="result">
+                        <video id="videoPlayer" controls>
+                            Your browser does not support video playback.
+                        </video>
+                        <div class="success">
+                            <h3>🎉 GENERATION COMPLETE!</h3>
+                            <p id="promptDisplay"></p>
+                        </div>
+                    </div>
+
+                    <div id="placeholder" class="placeholder">
+                        <div class="placeholder-icon">🎥</div>
+                        <h3>YOUR VIDEO WILL APPEAR HERE</h3>
+                        <p>Enter a prompt and click generate!</p>
+                    </div>
                 </div>
-            </div>
-
-            <div id="placeholder" style="text-align: center; padding: 40px;">
-                <div style="font-size: 4rem; margin-bottom: 20px;">🎥</div>
-                <h3>Your video will appear here</h3>
-                <p>Enter a prompt and click generate!</p>
             </div>
         </div>
     </div>
 
     <script>
+        // Password Protection
+        const CORRECT_PASSWORD = "widehollows2024";
+
+        function checkPassword() {
+            const input = document.getElementById('passwordInput');
+            const error = document.getElementById('passwordError');
+            const overlay = document.getElementById('passwordOverlay');
+            const mainApp = document.getElementById('mainApp');
+
+            if (input.value === CORRECT_PASSWORD) {
+                overlay.style.display = 'none';
+                mainApp.classList.add('unlocked');
+                localStorage.setItem('lumaAccess', 'granted');
+            } else {
+                error.textContent = 'Incorrect password. Try again.';
+                input.value = '';
+            }
+        }
+
+        // Check if already unlocked
+        if (localStorage.getItem('lumaAccess') === 'granted') {
+            document.getElementById('passwordOverlay').style.display = 'none';
+            document.getElementById('mainApp').classList.add('unlocked');
+        }
+
+        // Allow Enter key for password
+        document.getElementById('passwordInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkPassword();
+            }
+        });
+
+        // Main App Logic
         let isGenerating = false;
 
         function showError(message) {
@@ -262,11 +495,11 @@
             isGenerating = true;
             const btn = document.getElementById('generateBtn');
             btn.disabled = true;
-            btn.textContent = '🎬 Generating...';
+            btn.textContent = '🎬 GENERATING...';
 
             hideAll();
             document.getElementById('status').classList.add('active');
-            document.getElementById('statusText').textContent = 'Starting generation...';
+            document.getElementById('statusText').textContent = 'STARTING GENERATION...';
 
             try {
                 // Create generation
@@ -282,7 +515,7 @@
                 }
 
                 const { id } = await createResponse.json();
-                document.getElementById('statusText').textContent = `Generation started (ID: ${id.slice(0,8)}...)`;
+                document.getElementById('statusText').textContent = `GENERATION STARTED (ID: ${id.slice(0,8).toUpperCase()}...)`;
 
                 // Poll for completion
                 let attempts = 0;
@@ -291,7 +524,7 @@
                 const pollInterval = setInterval(async () => {
                     attempts++;
                     document.getElementById('statusText').textContent = 
-                        `Processing... (${attempts}/${maxAttempts}) - This can take 2-5 minutes`;
+                        `PROCESSING... (${attempts}/${maxAttempts}) - THIS CAN TAKE 2-5 MINUTES`;
 
                     try {
                         const statusResponse = await fetch(`/api/status?id=${id}`);
@@ -333,18 +566,30 @@
             } finally {
                 isGenerating = false;
                 btn.disabled = false;
-                btn.textContent = '🎬 Generate Video';
+                btn.textContent = '🎬 GENERATE VIDEO';
             }
         }
 
+        // Event listeners
         document.getElementById('generateBtn').addEventListener('click', generateVideo);
 
         document.querySelectorAll('.preset-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 document.getElementById('prompt').value = btn.getAttribute('data-prompt');
+                btn.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    btn.style.transform = '';
+                }, 150);
             });
         });
 
+        document.getElementById('prompt').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && e.ctrlKey) {
+                generateVideo();
+            }
+        });
+
+        // Initialize
         document.getElementById('placeholder').style.display = 'block';
     </script>
 </body>
