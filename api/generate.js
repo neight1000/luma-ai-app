@@ -31,7 +31,7 @@ export default async function handler(req, res) {
     const requestBody = {
       prompt: prompt.trim(),
       aspect_ratio: aspect_ratio,
-      model: "dream-machine-v1"
+      model: "ray-2"
     };
 
     console.log('Request body:', JSON.stringify(requestBody, null, 2));
