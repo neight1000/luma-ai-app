@@ -374,29 +374,29 @@
     <div id="mainApp" class="main-app">
         <div class="container">
             <div class="header">
-                <h1>🎬 LUMA AI STUDIO</h1>
-                <p>WIDE HOLLOWS EDITION</p>
+                <h1>🎧 HIP HOP VISUAL STUDIO</h1>
+                <p>POWERED BY LUMA AI • WIDE HOLLOWS EDITION</p>
             </div>
 
             <div class="card-grid">
                 <div class="card">
                     <div class="form-group">
-                        <label for="prompt">✨ DESCRIBE YOUR 3D SCENE:</label>
+                        <label for="prompt">🎤 DESCRIBE YOUR HIP HOP VISUAL:</label>
                         <textarea id="prompt" class="input-field prompt-input" 
-                                  placeholder="A steampunk airship flying through cloudy mountains...">A steampunk airship flying through cloudy mountains with golden sunset lighting</textarea>
+                                  placeholder="Vinyl records spinning with golden light rays in a smoky NYC basement...">Vintage turntables spinning vinyl records with golden light rays cutting through smoke in a dark NYC basement studio</textarea>
                     </div>
                     
-                    <button id="generateBtn" class="button generate-btn">🎬 GENERATE VIDEO</button>
+                    <button id="generateBtn" class="button generate-btn">🎵 GENERATE HIP HOP VISUAL</button>
 
                     <div class="form-group">
-                        <label>🎯 QUICK PROMPTS:</label>
+                        <label>📀 CLASSIC VIBES:</label>
                         <div class="preset-grid">
-                            <div class="preset-btn" data-prompt="A floating island with waterfalls in a magical sky">🏝️ FLOATING ISLAND</div>
-                            <div class="preset-btn" data-prompt="A cyberpunk city with neon lights at night">🌃 CYBERPUNK CITY</div>
-                            <div class="preset-btn" data-prompt="An underwater coral reef with colorful fish">🐠 OCEAN REEF</div>
-                            <div class="preset-btn" data-prompt="A space station orbiting Earth">🚀 SPACE STATION</div>
-                            <div class="preset-btn" data-prompt="A magical forest with glowing mushrooms">🌲 MAGICAL FOREST</div>
-                            <div class="preset-btn" data-prompt="A dragon flying through aurora-lit clouds">🐉 DRAGON FLIGHT</div>
+                            <div class="preset-btn" data-prompt="Vintage turntables spinning vinyl records with golden light rays in a smoky NYC basement">📀 TURNTABLES & VINYL</div>
+                            <div class="preset-btn" data-prompt="Retro boombox with cassette tapes floating around it, 80s neon grid background">📻 BOOMBOX DREAMS</div>
+                            <div class="preset-btn" data-prompt="Graffiti walls coming alive with colorful paint dripping and swirling in 3D motion">🎨 LIVING GRAFFITI</div>
+                            <div class="preset-btn" data-prompt="Golden microphone on stage with spotlight beams cutting through smoke and crowd silhouettes">🎤 SPOTLIGHT STAGE</div>
+                            <div class="preset-btn" data-prompt="Stack of vintage vinyl records morphing into a city skyline with neon lights">🏙️ VINYL CITY</div>
+                            <div class="preset-btn" data-prompt="Retro VHS tape unraveling into musical notes floating through purple and pink synthwave environment">📼 VHS SYNTHWAVE</div>
                         </div>
                     </div>
                     
@@ -408,8 +408,8 @@
                 <div class="card">
                     <div id="status" class="status">
                         <div class="spinner"></div>
-                        <h3>GENERATING VIDEO...</h3>
-                        <p id="statusText">Initializing generation...</p>
+                        <h3>COOKING UP THE BEAT...</h3>
+                        <p id="statusText">Dropping those fresh visuals...</p>
                     </div>
 
                     <div id="result" class="result">
@@ -417,15 +417,15 @@
                             Your browser does not support video playback.
                         </video>
                         <div class="success">
-                            <h3>🎉 GENERATION COMPLETE!</h3>
+                            <h3>🔥 VISUAL DROPPED!</h3>
                             <p id="promptDisplay"></p>
                         </div>
                     </div>
 
                     <div id="placeholder" class="placeholder">
-                        <div class="placeholder-icon">🎥</div>
-                        <h3>YOUR VIDEO WILL APPEAR HERE</h3>
-                        <p>Enter a prompt and click generate!</p>
+                        <div class="placeholder-icon">🎵</div>
+                        <h3>YOUR HIP HOP VISUAL WILL DROP HERE</h3>
+                        <p>Describe your vibe and let's create some fire!</p>
                     </div>
                 </div>
             </div>
@@ -495,11 +495,11 @@
             isGenerating = true;
             const btn = document.getElementById('generateBtn');
             btn.disabled = true;
-            btn.textContent = '🎬 GENERATING...';
+            btn.textContent = '🎵 COOKING UP VISUALS...';
 
             hideAll();
             document.getElementById('status').classList.add('active');
-            document.getElementById('statusText').textContent = 'STARTING GENERATION...';
+            document.getElementById('statusText').textContent = 'LAYING DOWN THE FOUNDATION...';
 
             try {
                 // Create generation
@@ -515,7 +515,7 @@
                 }
 
                 const { id } = await createResponse.json();
-                document.getElementById('statusText').textContent = `GENERATION STARTED (ID: ${id.slice(0,8).toUpperCase()}...)`;
+                document.getElementById('statusText').textContent = `BEAT IS COOKING (ID: ${id.slice(0,8).toUpperCase()}...)`;
 
                 // Poll for completion
                 let attempts = 0;
@@ -524,7 +524,7 @@
                 const pollInterval = setInterval(async () => {
                     attempts++;
                     document.getElementById('statusText').textContent = 
-                        `PROCESSING... (${attempts}/${maxAttempts}) - THIS CAN TAKE 2-5 MINUTES`;
+                        `MIXING THE VISUALS... (${attempts}/${maxAttempts}) - DROPS IN 2-5 MINUTES`;
 
                     try {
                         const statusResponse = await fetch(`/api/status?id=${id}`);
@@ -566,7 +566,7 @@
             } finally {
                 isGenerating = false;
                 btn.disabled = false;
-                btn.textContent = '🎬 GENERATE VIDEO';
+                btn.textContent = '🎵 GENERATE HIP HOP VISUAL';
             }
         }
 
