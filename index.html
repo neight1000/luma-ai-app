@@ -232,10 +232,10 @@
             color: #fff;
         }
 
-        /* Status Elements */
+        /* Status and Results */
         .status, .result, .placeholder {
             text-align: center;
-            padding: var(--space-xl);
+            padding: var(--space-lg);
         }
 
         .status {
@@ -491,26 +491,46 @@
                     <!-- Right Panel: Output -->
                     <div class="col-7">
                         <div class="card">
-                            <div id="status" class="status">
-                                <div class="spinner"></div>
-                                <h3 class="mb-sm">COOKING UP THE BEAT...</h3>
-                                <p id="statusText">Dropping those fresh visuals...</p>
-                            </div>
+                            <!-- 16:9 Video Container -->
+                            <div class="video-container">
+                                <div id="status" class="status">
+                                    <div class="spinner"></div>
+                                    <h3 class="mb-sm">COOKING UP THE BEAT...</h3>
+                                    <p id="statusText">Dropping those fresh visuals...</p>
+                                </div>
 
-                            <div id="result" class="result">
-                                <video id="videoPlayer" controls>
-                                    Your browser does not support video playback.
-                                </video>
-                                <div class="success">
-                                    <h3 class="mb-sm">VISUAL DROPPED!</h3>
-                                    <p id="promptDisplay"></p>
+                                <div id="result" class="result">
+                                    <video id="videoPlayer" controls>
+                                        Your browser does not support video playback.
+                                    </video>
+                                    <div class="success">
+                                        <h3 class="mb-sm">VISUAL DROPPED!</h3>
+                                        <p id="promptDisplay"></p>
+                                    </div>
+                                </div>
+
+                                <div id="placeholder" class="placeholder">
+                                    <div style="font-size: var(--font-size-lg); margin-bottom: var(--space-md);">♪</div>
+                                    <h3 class="mb-sm">YOUR HIP HOP VISUAL WILL DROP HERE</h3>
+                                    <p>Describe your vibe and let's create some fire!</p>
                                 </div>
                             </div>
+                        </div>
 
-                            <div id="placeholder" class="placeholder">
-                                <div style="font-size: var(--font-size-lg); margin-bottom: var(--space-md);">♪</div>
-                                <h3 class="mb-sm">YOUR HIP HOP VISUAL WILL DROP HERE</h3>
-                                <p>Describe your vibe and let's create some fire!</p>
+                        <!-- Visual Enhancement Card -->
+                        <div class="card">
+                            <div class="form-group">
+                                <label>VISUAL ENHANCEMENT:</label>
+                                <div class="preset-grid">
+                                    <button class="preset-btn enhancement-btn" data-enhancement="moody lighting with dramatic shadows and golden hour warmth">GOLDEN HOUR</button>
+                                    <button class="preset-btn enhancement-btn" data-enhancement="high contrast black and white with film grain and vintage texture">B&W FILM GRAIN</button>
+                                    <button class="preset-btn enhancement-btn" data-enhancement="neon lighting with electric blue and purple glows">NEON GLOW</button>
+                                    <button class="preset-btn enhancement-btn" data-enhancement="VHS glitch effects with scan lines and chromatic aberration">VHS GLITCH</button>
+                                    <button class="preset-btn enhancement-btn" data-enhancement="smoky atmospheric haze with volumetric lighting">SMOKE & HAZE</button>
+                                    <button class="preset-btn enhancement-btn" data-enhancement="vinyl record texture overlay with dust and scratches">VINYL TEXTURE</button>
+                                    <button class="preset-btn enhancement-btn" data-enhancement="street art spray paint texture with rough urban surfaces">STREET TEXTURE</button>
+                                    <button class="preset-btn enhancement-btn" data-enhancement="retro 80s chromatic lighting with magenta and cyan tones">SYNTHWAVE</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -532,17 +552,12 @@
             if (input.value === CORRECT_PASSWORD) {
                 overlay.style.display = 'none';
                 mainApp.classList.add('unlocked');
-                localStorage.setItem('lumaAccess', 'granted');
+                // Store in memory instead of localStorage
+                window.accessGranted = true;
             } else {
                 error.textContent = 'Incorrect password. Try again.';
                 input.value = '';
             }
-        }
-
-        // Check if already unlocked
-        if (localStorage.getItem('lumaAccess') === 'granted') {
-            document.getElementById('passwordOverlay').style.display = 'none';
-            document.getElementById('mainApp').classList.add('unlocked');
         }
 
         // Allow Enter key for password
@@ -662,11 +677,16 @@
 
         document.querySelectorAll('.preset-btn').forEach(btn => {
             btn.addEventListener('click', () => {
-                document.getElementById('prompt').value = btn.getAttribute('data-prompt');
-                btn.style.transform = 'scale(0.95)';
-                setTimeout(() => {
-                    btn.style.transform = '';
-                }, 150);
+                if (btn.classList.contains('enhancement-btn')) {
+                    // Enhancement button - append to existing prompt
+                    const currentPrompt = document.getElementById('prompt').value;
+                    const enhancement = btn.getAttribute('data-enhancement');
+                    const newPrompt = currentPrompt + (currentPrompt.endsWith('.') ? '' : ',') + ' with ' + enhancement;
+                    document.getElementById('prompt').value = newPrompt;
+                } else {
+                    // Regular preset button - replace prompt
+                    document.getElementById('prompt').value = btn.getAttribute('data-prompt');
+                }
             });
         });
 
