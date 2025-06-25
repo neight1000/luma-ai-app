@@ -20,10 +20,10 @@
             --column-width: calc(var(--base-unit) * var(--phi) * var(--phi) * var(--phi) * var(--phi)); /* ~110px */
             --content-width: calc(var(--column-width) * 12 + var(--space-md) * 11); /* 12 columns + 11 gutters */
             
-            --font-size-xs: 7pt;
-            --font-size-sm: 9pt;
-            --font-size-md: calc(9pt * var(--phi)); /* ~14.5pt */
-            --font-size-lg: calc(9pt * var(--phi) * var(--phi)); /* ~23.5pt */
+            --font-size-base: 12pt;
+            --font-size-sm: 10pt;
+            --font-size-lg: calc(12pt * var(--phi)); /* ~19.4pt */
+            --font-size-xl: calc(12pt * var(--phi) * var(--phi)); /* ~31.4pt */
         }
 
         /* Global Reset */
@@ -37,7 +37,7 @@
             background: #fff;
             color: #000;
             font-family: 'Space Mono', monospace;
-            font-size: var(--font-size-sm);
+            font-size: var(--font-size-base);
             line-height: var(--phi);
             overflow-x: hidden;
         }
@@ -87,7 +87,7 @@
         h1 {
             font-family: 'Space Mono', monospace;
             color: #000;
-            font-size: var(--font-size-lg);
+            font-size: var(--font-size-xl);
             line-height: 1;
             margin-bottom: var(--space-lg);
             font-weight: 700;
@@ -96,7 +96,7 @@
         h2 {
             font-family: 'Space Mono', monospace;
             color: #000;
-            font-size: var(--font-size-md);
+            font-size: var(--font-size-lg);
             line-height: 1.2;
             margin-bottom: var(--space-md);
             font-weight: 700;
@@ -105,7 +105,7 @@
         h3, h4, h5, h6 {
             font-family: 'Space Mono', monospace;
             color: #000;
-            font-size: var(--font-size-sm);
+            font-size: var(--font-size-base);
             line-height: 1.4;
             margin-bottom: var(--space-sm);
             font-weight: 400;
@@ -114,7 +114,7 @@
         p {
             font-family: 'Space Mono', monospace;
             color: #000;
-            font-size: var(--font-size-sm);
+            font-size: var(--font-size-base);
             line-height: var(--phi);
             margin-bottom: var(--space-md);
         }
@@ -137,22 +137,6 @@
             border: 1px solid #000;
             padding: var(--space-lg);
             margin-bottom: var(--space-lg);
-            transition: all 0.2s ease;
-        }
-
-        .card:hover {
-            background: #000;
-            color: #fff;
-        }
-
-        .card:hover h1,
-        .card:hover h2,
-        .card:hover h3,
-        .card:hover h4,
-        .card:hover h5,
-        .card:hover h6,
-        .card:hover p {
-            color: #fff;
         }
 
         /* Form Elements */
@@ -164,7 +148,7 @@
             display: block;
             font-family: 'Space Mono', monospace;
             color: #000;
-            font-size: var(--font-size-sm);
+            font-size: var(--font-size-base);
             margin-bottom: var(--space-sm);
             font-weight: 700;
         }
@@ -176,7 +160,7 @@
             color: #000;
             padding: var(--space-sm);
             font-family: 'Space Mono', monospace;
-            font-size: var(--font-size-sm);
+            font-size: var(--font-size-base);
             line-height: var(--phi);
         }
 
@@ -199,8 +183,8 @@
             padding: var(--space-sm) var(--space-md);
             cursor: pointer;
             font-family: 'Space Mono', monospace;
-            font-size: var(--font-size-sm);
-            transition: all 0.2s ease;
+            font-size: var(--font-size-base);
+            transition: none;
             display: inline-block;
             text-decoration: none;
         }
@@ -213,9 +197,6 @@
         .button:disabled {
             opacity: 0.5;
             cursor: not-allowed;
-        }
-
-        .button:disabled:hover {
             background: #fff;
             color: #000;
         }
@@ -241,8 +222,8 @@
             padding: var(--space-sm);
             cursor: pointer;
             font-family: 'Space Mono', monospace;
-            font-size: var(--font-size-xs);
-            transition: all 0.2s ease;
+            font-size: var(--font-size-sm);
+            transition: none;
             text-align: center;
         }
 
@@ -341,7 +322,7 @@
             color: #000;
             padding: var(--space-sm);
             font-family: 'Space Mono', monospace;
-            font-size: var(--font-size-sm);
+            font-size: var(--font-size-base);
             margin-bottom: var(--space-md);
         }
 
@@ -359,7 +340,8 @@
             padding: var(--space-sm);
             cursor: pointer;
             font-family: 'Space Mono', monospace;
-            font-size: var(--font-size-sm);
+            font-size: var(--font-size-base);
+            transition: all 0.2s ease;
         }
 
         .password-btn:hover {
@@ -371,7 +353,7 @@
             font-family: 'Space Mono', monospace;
             color: #000;
             margin-top: var(--space-sm);
-            font-size: var(--font-size-xs);
+            font-size: var(--font-size-sm);
         }
 
         /* Main App Layout */
