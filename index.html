@@ -4,281 +4,698 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hip Hop Visual Studio - Wide Hollows</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* ... your original CSS unchanged ... */
-        /* [Keep your existing CSS here for brevity] */
+        /* Golden Ratio Constants */
+        :root {
+            --phi: 1.618;
+            --base-unit: 16px; /* 1rem */
+            --space-xs: calc(var(--base-unit) / var(--phi) / var(--phi)); /* ~6px */
+            --space-sm: calc(var(--base-unit) / var(--phi)); /* ~10px */
+            --space-md: var(--base-unit); /* 16px */
+            --space-lg: calc(var(--base-unit) * var(--phi)); /* ~26px */
+            --space-xl: calc(var(--base-unit) * var(--phi) * var(--phi)); /* ~42px */
+            --space-xxl: calc(var(--base-unit) * var(--phi) * var(--phi) * var(--phi)); /* ~68px */
+            
+            --column-width: calc(var(--base-unit) * var(--phi) * var(--phi) * var(--phi) * var(--phi)); /* ~110px */
+            --content-width: calc(var(--column-width) * 12 + var(--space-md) * 11); /* 12 columns + 11 gutters */
+            
+            --font-size-xs: 7pt;
+            --font-size-sm: 9pt;
+            --font-size-md: calc(9pt * var(--phi)); /* ~14.5pt */
+            --font-size-lg: calc(9pt * var(--phi) * var(--phi)); /* ~23.5pt */
+        }
+
+        /* Global Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #fff;
+            color: #000;
+            font-family: 'Space Mono', monospace;
+            font-size: var(--font-size-sm);
+            line-height: var(--phi);
+            overflow-x: hidden;
+        }
+
+        /* Modular Grid System */
+        .grid-container {
+            max-width: var(--content-width);
+            margin: 0 auto;
+            padding: 0 var(--space-md);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: var(--space-md);
+            margin-bottom: var(--space-lg);
+        }
+
+        .col-1 { grid-column: span 1; }
+        .col-2 { grid-column: span 2; }
+        .col-3 { grid-column: span 3; }
+        .col-4 { grid-column: span 4; }
+        .col-5 { grid-column: span 5; }
+        .col-6 { grid-column: span 6; }
+        .col-7 { grid-column: span 7; }
+        .col-8 { grid-column: span 8; }
+        .col-9 { grid-column: span 9; }
+        .col-10 { grid-column: span 10; }
+        .col-11 { grid-column: span 11; }
+        .col-12 { grid-column: span 12; }
+
+        /* Golden Ratio Spacing */
+        .mb-xs { margin-bottom: var(--space-xs); }
+        .mb-sm { margin-bottom: var(--space-sm); }
+        .mb-md { margin-bottom: var(--space-md); }
+        .mb-lg { margin-bottom: var(--space-lg); }
+        .mb-xl { margin-bottom: var(--space-xl); }
+        .mb-xxl { margin-bottom: var(--space-xxl); }
+
+        .p-xs { padding: var(--space-xs); }
+        .p-sm { padding: var(--space-sm); }
+        .p-md { padding: var(--space-md); }
+        .p-lg { padding: var(--space-lg); }
+        .p-xl { padding: var(--space-xl); }
+
+        /* Typography Scale */
+        h1 {
+            font-family: 'Space Mono', monospace;
+            color: #000;
+            font-size: var(--font-size-lg);
+            line-height: 1;
+            margin-bottom: var(--space-lg);
+            font-weight: 700;
+        }
+
+        h2 {
+            font-family: 'Space Mono', monospace;
+            color: #000;
+            font-size: var(--font-size-md);
+            line-height: 1.2;
+            margin-bottom: var(--space-md);
+            font-weight: 700;
+        }
+
+        h3, h4, h5, h6 {
+            font-family: 'Space Mono', monospace;
+            color: #000;
+            font-size: var(--font-size-sm);
+            line-height: 1.4;
+            margin-bottom: var(--space-sm);
+            font-weight: 400;
+        }
+
+        p {
+            font-family: 'Space Mono', monospace;
+            color: #000;
+            font-size: var(--font-size-sm);
+            line-height: var(--phi);
+            margin-bottom: var(--space-md);
+        }
+
+        /* Layout Components */
+        .header {
+            padding: var(--space-lg) 0;
+            border-bottom: 1px solid #000;
+            margin-bottom: var(--space-xl);
+            text-align: center;
+        }
+
+        .main-content {
+            min-height: calc(100vh - var(--space-xxl) * 2);
+        }
+
+        /* Cards */
+        .card {
+            background: #fff;
+            border: 1px solid #000;
+            padding: var(--space-lg);
+            margin-bottom: var(--space-lg);
+            transition: all 0.2s ease;
+        }
+
+        .card:hover {
+            background: #000;
+            color: #fff;
+        }
+
+        .card:hover h1,
+        .card:hover h2,
+        .card:hover h3,
+        .card:hover h4,
+        .card:hover h5,
+        .card:hover h6,
+        .card:hover p {
+            color: #fff;
+        }
+
+        /* Form Elements */
+        .form-group {
+            margin-bottom: var(--space-lg);
+        }
+
+        label {
+            display: block;
+            font-family: 'Space Mono', monospace;
+            color: #000;
+            font-size: var(--font-size-sm);
+            margin-bottom: var(--space-sm);
+            font-weight: 700;
+        }
+
+        .input-field {
+            width: 100%;
+            background: #fff;
+            border: 1px solid #000;
+            color: #000;
+            padding: var(--space-sm);
+            font-family: 'Space Mono', monospace;
+            font-size: var(--font-size-sm);
+            line-height: var(--phi);
+        }
+
+        .input-field:focus {
+            outline: none;
+            background: #000;
+            color: #fff;
+        }
+
+        .textarea {
+            min-height: calc(var(--space-xl) * 2);
+            resize: vertical;
+        }
+
+        /* Buttons */
+        .button {
+            background: #fff;
+            border: 1px solid #000;
+            color: #000;
+            padding: var(--space-sm) var(--space-md);
+            cursor: pointer;
+            font-family: 'Space Mono', monospace;
+            font-size: var(--font-size-sm);
+            transition: all 0.2s ease;
+            display: inline-block;
+            text-decoration: none;
+        }
+
+        .button:hover {
+            background: #000;
+            color: #fff;
+        }
+
+        .button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .button:disabled:hover {
+            background: #fff;
+            color: #000;
+        }
+
+        .button-full {
+            width: 100%;
+            text-align: center;
+            margin-bottom: var(--space-md);
+        }
+
+        /* Preset Grid */
+        .preset-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(calc(var(--column-width) * 2), 1fr));
+            gap: var(--space-sm);
+            margin-bottom: var(--space-lg);
+        }
+
+        .preset-btn {
+            background: #fff;
+            border: 1px solid #000;
+            color: #000;
+            padding: var(--space-sm);
+            cursor: pointer;
+            font-family: 'Space Mono', monospace;
+            font-size: var(--font-size-xs);
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+
+        .preset-btn:hover {
+            background: #000;
+            color: #fff;
+        }
+
+        /* Status Elements */
+        .status, .result, .placeholder {
+            text-align: center;
+            padding: var(--space-xl);
+        }
+
+        .status {
+            display: none;
+        }
+
+        .status.active {
+            display: block;
+        }
+
+        .result {
+            display: none;
+        }
+
+        .result.active {
+            display: block;
+        }
+
+        .result video {
+            width: 100%;
+            height: auto;
+            border: 1px solid #000;
+            margin-bottom: var(--space-md);
+        }
+
+        .spinner {
+            width: var(--space-xl);
+            height: var(--space-xl);
+            border: 1px solid #000;
+            border-top: 1px solid transparent;
+            animation: spin 1s linear infinite;
+            margin: 0 auto var(--space-md);
+        }
+
+        .error {
+            background: #fff;
+            border: 1px solid #000;
+            color: #000;
+            padding: var(--space-md);
+            margin-top: var(--space-md);
+            display: none;
+            font-family: 'Space Mono', monospace;
+        }
+
+        .error.active {
+            display: block;
+        }
+
+        .success {
+            background: #fff;
+            border: 1px solid #000;
+            color: #000;
+            padding: var(--space-md);
+            margin-top: var(--space-md);
+            font-family: 'Space Mono', monospace;
+        }
+
+        /* Password Overlay */
+        .password-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .password-form {
+            background: #fff;
+            border: 1px solid #000;
+            padding: var(--space-xl);
+            max-width: calc(var(--column-width) * 4);
+            width: 90%;
+        }
+
+        .password-input {
+            width: 100%;
+            background: #fff;
+            border: 1px solid #000;
+            color: #000;
+            padding: var(--space-sm);
+            font-family: 'Space Mono', monospace;
+            font-size: var(--font-size-sm);
+            margin-bottom: var(--space-md);
+        }
+
+        .password-input:focus {
+            outline: none;
+            background: #000;
+            color: #fff;
+        }
+
+        .password-btn {
+            width: 100%;
+            background: #fff;
+            border: 1px solid #000;
+            color: #000;
+            padding: var(--space-sm);
+            cursor: pointer;
+            font-family: 'Space Mono', monospace;
+            font-size: var(--font-size-sm);
+        }
+
+        .password-btn:hover {
+            background: #000;
+            color: #fff;
+        }
+
+        .password-error {
+            font-family: 'Space Mono', monospace;
+            color: #000;
+            margin-top: var(--space-sm);
+            font-size: var(--font-size-xs);
+        }
+
+        /* Main App Layout */
+        .main-app {
+            display: none;
+        }
+
+        .main-app.unlocked {
+            display: block;
+        }
+
+        /* Animations */
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive Breakpoints */
+        @media (max-width: 768px) {
+            :root {
+                --base-unit: 14px;
+                --content-width: 100%;
+            }
+
+            .grid {
+                grid-template-columns: repeat(6, 1fr);
+            }
+
+            .col-1 { grid-column: span 1; }
+            .col-2 { grid-column: span 2; }
+            .col-3 { grid-column: span 3; }
+            .col-4 { grid-column: span 4; }
+            .col-5 { grid-column: span 5; }
+            .col-6 { grid-column: span 6; }
+            .col-7 { grid-column: span 6; }
+            .col-8 { grid-column: span 6; }
+            .col-9 { grid-column: span 6; }
+            .col-10 { grid-column: span 6; }
+            .col-11 { grid-column: span 6; }
+            .col-12 { grid-column: span 6; }
+
+            .preset-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header {
+                padding: var(--space-md) 0;
+            }
+
+            h1 {
+                font-size: var(--font-size-md);
+            }
+        }
+
+        @media (max-width: 480px) {
+            :root {
+                --base-unit: 12px;
+            }
+
+            .grid {
+                grid-template-columns: repeat(4, 1fr);
+                gap: var(--space-sm);
+            }
+
+            .col-1 { grid-column: span 1; }
+            .col-2 { grid-column: span 2; }
+            .col-3 { grid-column: span 3; }
+            .col-4 { grid-column: span 4; }
+            .col-5 { grid-column: span 4; }
+            .col-6 { grid-column: span 4; }
+            .col-7 { grid-column: span 4; }
+            .col-8 { grid-column: span 4; }
+            .col-9 { grid-column: span 4; }
+            .col-10 { grid-column: span 4; }
+            .col-11 { grid-column: span 4; }
+            .col-12 { grid-column: span 4; }
+
+            .password-form {
+                padding: var(--space-lg);
+            }
+        }
     </style>
 </head>
 <body>
     <!-- Password Protection -->
-    <div id="passwordOverlay" class="password-overlay" role="dialog" aria-modal="true" aria-labelledby="passwordTitle">
-        <form class="password-form" id="passwordForm" autocomplete="off">
-            <h1 id="passwordTitle">🔐 ACCESS CONTROL</h1>
-            <p>Enter password to continue</p>
-            <input 
-                type="password" 
-                id="passwordInput" 
-                class="password-input" 
-                placeholder="Password" 
-                autocomplete="off" 
-                required 
-                aria-label="Password"
-            >
-            <button type="submit" class="password-btn">UNLOCK</button>
-            <div id="passwordError" class="password-error" aria-live="polite"></div>
-        </form>
+    <div id="passwordOverlay" class="password-overlay">
+        <div class="password-form">
+            <h2 class="mb-md">ACCESS CONTROL</h2>
+            <p class="mb-md">Enter password to continue</p>
+            <input type="password" id="passwordInput" class="password-input" placeholder="Password">
+            <button onclick="checkPassword()" class="password-btn">UNLOCK</button>
+            <div id="passwordError" class="password-error"></div>
+        </div>
     </div>
 
     <!-- Main Application -->
-    <div id="mainApp" class="main-app" aria-hidden="true">
-        <div class="container">
-            <div class="header">
-                <h1>🎧 HIP HOP VISUAL STUDIO</h1>
-                <p>POWERED BY LUMA AI • WIDE HOLLOWS EDITION</p>
-            </div>
+    <div id="mainApp" class="main-app">
+        <div class="grid-container">
+            <header class="header">
+                <h1>HIP HOP VISUAL STUDIO</h1>
+                <p>POWERED BY LUMA AI</p>
+            </header>
 
-            <div class="card-grid">
-                <div class="card prompt-panel">
-                    <div class="form-group">
-                        <label for="prompt">🎤 DESCRIBE YOUR HIP HOP VISUAL:</label>
-                        <textarea id="prompt" class="input-field prompt-input" 
-                                  placeholder="Vinyl records spinning with golden light rays in a smoky NYC basement..." rows="5" required aria-label="Describe your hip hop visual"></textarea>
-                    </div>
-                    
-                    <button id="generateBtn" class="button generate-btn">🎵 GENERATE HIP HOP VISUAL</button>
+            <main class="main-content">
+                <div class="grid">
+                    <!-- Left Panel: Input -->
+                    <div class="col-5">
+                        <div class="card">
+                            <div class="form-group">
+                                <label for="prompt">DESCRIBE YOUR HIP HOP VISUAL:</label>
+                                <textarea id="prompt" class="input-field textarea" 
+                                          placeholder="Vintage turntables spinning vinyl records...">Vintage turntables spinning vinyl records with golden light rays cutting through smoke in a dark NYC basement studio</textarea>
+                            </div>
+                            
+                            <button id="generateBtn" class="button button-full">GENERATE HIP HOP VISUAL</button>
 
-                    <div class="form-group">
-                        <label>📀 CLASSIC VIBES:</label>
-                        <div class="preset-grid">
-                            <button type="button" class="preset-btn" data-prompt="You are a professional hip hop videographer. Create a dynamic 3D scene of vintage turntables spinning vinyl records with golden light rays cutting through smoke.">Vintage Turntables</button>
-                            <button type="button" class="preset-btn" data-prompt="You are a retro music video director. Generate a nostalgic scene featuring a classic boombox with cassette tapes floating around it against a brick wall.">Classic Boombox</button>
-                            <button type="button" class="preset-btn" data-prompt="You are an urban art cinematographer. Create a living graffiti wall scene where colorful paint is dripping and swirling in 3D motion.">Graffiti Wall</button>
-                            <button type="button" class="preset-btn" data-prompt="You are a concert stage designer. Generate a golden microphone on stage with dramatic spotlight beams cutting through smoke and crowd silhouettes.">Golden Microphone</button>
-                            <button type="button" class="preset-btn" data-prompt="You are a surreal hip hop visual artist. Create a stack of vintage vinyl records morphing and transforming into a city skyline with neon lights.">Vinyl City Skyline</button>
-                            <button type="button" class="preset-btn" data-prompt="You are a retro-futuristic video creator. Generate a VHS tape unraveling with the tape transforming into musical notes floating through the air.">VHS Transformation</button>
-                        </div>
-                    </div>
-                    
-                    <div id="error" class="error" aria-live="assertive">
-                        <p id="errorMessage"></p>
-                    </div>
-                </div>
-
-                <div class="card visual-panel">
-                    <div id="status" class="status" aria-live="polite">
-                        <div class="spinner" aria-hidden="true"></div>
-                        <h3>COOKING UP THE BEAT...</h3>
-                        <p id="statusText">Dropping those fresh visuals...</p>
-                    </div>
-
-                    <div id="result" class="result">
-                        <video id="videoPlayer" controls aria-label="Generated Hip Hop Visual">
-                            Your browser does not support video playback.
-                        </video>
-                        <div class="success">
-                            <h3>🔥 VISUAL DROPPED!</h3>
-                            <p id="promptDisplay"></p>
+                            <div class="form-group">
+                                <label>CLASSIC VIBES:</label>
+                                <div class="preset-grid">
+                                    <button class="preset-btn" data-prompt="You are a professional hip hop videographer. Create a dynamic 3D scene of vintage turntables spinning vinyl records with golden light rays cutting through thick smoke in a dark NYC basement studio. Format as a cinematic shot with dramatic lighting. Style should be gritty and authentic with warm amber tones. Context: underground 90s hip hop culture, intimate venue setting.">TURNTABLES & VINYL</button>
+                                    <button class="preset-btn" data-prompt="You are a retro music video director. Generate a nostalgic scene featuring a classic boombox with cassette tapes floating around it against an 80s neon grid background. Format as a synthwave-style visual with vibrant colors. Style should be neon-soaked with purple and pink hues, geometric patterns. Context: 1980s street culture, breakdancing era aesthetic.">BOOMBOX DREAMS</button>
+                                    <button class="preset-btn" data-prompt="You are an urban art cinematographer. Create a living graffiti wall scene where colorful paint is dripping and swirling in 3D motion. Format as a time-lapse style transformation. Style should be vibrant and energetic with bold colors bleeding into each other. Context: NYC subway culture, street art coming alive with hip hop energy.">LIVING GRAFFITI</button>
+                                    <button class="preset-btn" data-prompt="You are a concert stage designer. Generate a golden microphone on stage with dramatic spotlight beams cutting through smoke and crowd silhouettes. Format as a wide cinematic shot from audience perspective. Style should be moody with high contrast lighting and atmospheric haze. Context: legendary hip hop venue, iconic performance moment.">SPOTLIGHT STAGE</button>
+                                    <button class="preset-btn" data-prompt="You are a surreal hip hop visual artist. Create a stack of vintage vinyl records morphing and transforming into a city skyline with neon lights. Format as a seamless transition shot. Style should blend realism with abstract elements, urban glow effects. Context: music as the foundation of city culture, records building civilization.">VINYL CITY</button>
+                                    <button class="preset-btn" data-prompt="You are a retro-futuristic video creator. Generate a VHS tape unraveling with the tape transforming into musical notes floating through a purple and pink synthwave environment. Format as a fluid motion graphic. Style should be nostalgic with VHS glitch effects and dreamy gradients. Context: 90s technology meets hip hop, analog warmth with digital dreams.">VHS SYNTHWAVE</button>
+                                </div>
+                            </div>
+                            
+                            <div id="error" class="error">
+                                <p id="errorMessage"></p>
+                            </div>
                         </div>
                     </div>
 
-                    <div id="placeholder" class="placeholder">
-                        <div class="placeholder-icon" aria-hidden="true">🎵</div>
-                        <h3>YOUR HIP HOP VISUAL WILL DROP HERE</h3>
-                        <p>Describe your vibe and let's create some fire!</p>
+                    <!-- Right Panel: Output -->
+                    <div class="col-7">
+                        <div class="card">
+                            <div id="status" class="status">
+                                <div class="spinner"></div>
+                                <h3 class="mb-sm">COOKING UP THE BEAT...</h3>
+                                <p id="statusText">Dropping those fresh visuals...</p>
+                            </div>
+
+                            <div id="result" class="result">
+                                <video id="videoPlayer" controls>
+                                    Your browser does not support video playback.
+                                </video>
+                                <div class="success">
+                                    <h3 class="mb-sm">VISUAL DROPPED!</h3>
+                                    <p id="promptDisplay"></p>
+                                </div>
+                            </div>
+
+                            <div id="placeholder" class="placeholder">
+                                <div style="font-size: var(--font-size-lg); margin-bottom: var(--space-md);">♪</div>
+                                <h3 class="mb-sm">YOUR HIP HOP VISUAL WILL DROP HERE</h3>
+                                <p>Describe your vibe and let's create some fire!</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </main>
         </div>
     </div>
 
     <script>
-    // Password Protection
-    const CORRECT_PASSWORD = "widehollows2024";
+        // Password Protection
+        const CORRECT_PASSWORD = "widehollows2024";
 
-    // Autofocus and focus trap for accessibility
-    window.addEventListener('DOMContentLoaded', () => {
-        const passwordInput = document.getElementById('passwordInput');
-        passwordInput.focus();
-
-        // Trap focus in password modal when active
-        document.addEventListener('focus', function(event) {
+        function checkPassword() {
+            const input = document.getElementById('passwordInput');
+            const error = document.getElementById('passwordError');
             const overlay = document.getElementById('passwordOverlay');
-            if (overlay.style.display !== 'none' && !overlay.contains(event.target)) {
-                event.stopPropagation();
-                passwordInput.focus();
+            const mainApp = document.getElementById('mainApp');
+
+            if (input.value === CORRECT_PASSWORD) {
+                overlay.style.display = 'none';
+                mainApp.classList.add('unlocked');
+                localStorage.setItem('lumaAccess', 'granted');
+            } else {
+                error.textContent = 'Incorrect password. Try again.';
+                input.value = '';
             }
-        }, true);
-    });
-
-    // Hide error message on input
-    document.getElementById('passwordInput').addEventListener('input', () => {
-        document.getElementById('passwordError').textContent = '';
-    });
-
-    // Submit handler for password form
-    document.getElementById('passwordForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        checkPassword();
-    });
-
-    function checkPassword() {
-        const input = document.getElementById('passwordInput');
-        const error = document.getElementById('passwordError');
-        const overlay = document.getElementById('passwordOverlay');
-        const mainApp = document.getElementById('mainApp');
-
-        if (input.value === CORRECT_PASSWORD) {
-            overlay.style.display = 'none';
-            mainApp.classList.add('unlocked');
-            mainApp.setAttribute('aria-hidden', 'false');
-            localStorage.setItem('lumaAccess', 'granted');
-        } else {
-            error.textContent = 'Incorrect password. Try again.';
-            input.value = '';
-            input.focus();
-        }
-    }
-
-    // Check if already unlocked
-    if (localStorage.getItem('lumaAccess') === 'granted') {
-        document.getElementById('passwordOverlay').style.display = 'none';
-        document.getElementById('mainApp').classList.add('unlocked');
-        document.getElementById('mainApp').setAttribute('aria-hidden', 'false');
-    }
-
-    // Main App Logic
-    let isGenerating = false;
-
-    function showError(message) {
-        const errorDiv = document.getElementById('error');
-        document.getElementById('errorMessage').textContent = message;
-        errorDiv.classList.add('active');
-        setTimeout(() => {
-            errorDiv.classList.remove('active');
-        }, 8000);
-    }
-
-    function hideAll() {
-        document.getElementById('status').classList.remove('active');
-        document.getElementById('result').classList.remove('active');
-        document.getElementById('error').classList.remove('active');
-        document.getElementById('placeholder').style.display = 'none';
-    }
-
-    async function generateVideo() {
-        if (isGenerating) return;
-
-        const prompt = document.getElementById('prompt').value.trim();
-        if (!prompt) {
-            showError('Please enter a prompt');
-            return;
         }
 
-        isGenerating = true;
-        const btn = document.getElementById('generateBtn');
-        btn.disabled = true;
-        btn.textContent = '🎵 COOKING UP VISUALS...';
+        // Check if already unlocked
+        if (localStorage.getItem('lumaAccess') === 'granted') {
+            document.getElementById('passwordOverlay').style.display = 'none';
+            document.getElementById('mainApp').classList.add('unlocked');
+        }
 
-        hideAll();
-        document.getElementById('status').classList.add('active');
-        document.getElementById('statusText').textContent = 'LAYING DOWN THE FOUNDATION...';
+        // Allow Enter key for password
+        document.getElementById('passwordInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkPassword();
+            }
+        });
 
-        try {
-            // Create generation
-            const createResponse = await fetch('/api/generate', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ prompt })
-            });
+        // Main App Logic
+        let isGenerating = false;
 
-            if (!createResponse.ok) {
-                let errorMsg = 'Failed to start generation';
-                try {
+        function showError(message) {
+            document.getElementById('errorMessage').textContent = message;
+            document.getElementById('error').classList.add('active');
+            setTimeout(() => {
+                document.getElementById('error').classList.remove('active');
+            }, 8000);
+        }
+
+        function hideAll() {
+            document.getElementById('status').classList.remove('active');
+            document.getElementById('result').classList.remove('active');
+            document.getElementById('error').classList.remove('active');
+            document.getElementById('placeholder').style.display = 'none';
+        }
+
+        async function generateVideo() {
+            if (isGenerating) return;
+
+            const prompt = document.getElementById('prompt').value.trim();
+            if (!prompt) {
+                showError('Please enter a prompt');
+                return;
+            }
+
+            isGenerating = true;
+            const btn = document.getElementById('generateBtn');
+            btn.disabled = true;
+            btn.textContent = '🎵 COOKING UP VISUALS...';
+
+            hideAll();
+            document.getElementById('status').classList.add('active');
+            document.getElementById('statusText').textContent = 'LAYING DOWN THE FOUNDATION...';
+
+            try {
+                // Create generation
+                const createResponse = await fetch('/api/generate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ prompt })
+                });
+
+                if (!createResponse.ok) {
                     const error = await createResponse.json();
-                    errorMsg = error.error || errorMsg;
-                } catch {}
-                throw new Error(errorMsg);
-            }
+                    throw new Error(error.error || 'Failed to start generation');
+                }
 
-            const { id } = await createResponse.json();
-            document.getElementById('statusText').textContent = `BEAT IS COOKING (ID: ${id.slice(0,8).toUpperCase()}...)`;
+                const { id } = await createResponse.json();
+                document.getElementById('statusText').textContent = `BEAT IS COOKING (ID: ${id.slice(0,8).toUpperCase()}...)`;
 
-            // Poll for completion
-            let attempts = 0;
-            const maxAttempts = 72; // 6 minutes
+                // Poll for completion
+                let attempts = 0;
+                const maxAttempts = 72; // 6 minutes
 
-            const pollInterval = setInterval(async () => {
-                attempts++;
-                document.getElementById('statusText').textContent = 
-                    `MIXING THE VISUALS... (${attempts}/${maxAttempts}) - DROPS IN 2-5 MINUTES`;
+                const pollInterval = setInterval(async () => {
+                    attempts++;
+                    document.getElementById('statusText').textContent = 
+                        `MIXING THE VISUALS... (${attempts}/${maxAttempts}) - DROPS IN 2-5 MINUTES`;
 
-                try {
-                    const statusResponse = await fetch(`/api/status?id=${encodeURIComponent(id)}`);
-                    if (statusResponse.ok) {
-                        const data = await statusResponse.json();
-                        if (data.state === 'completed') {
+                    try {
+                        const statusResponse = await fetch(`/api/status?id=${id}`);
+                        
+                        if (statusResponse.ok) {
+                            const data = await statusResponse.json();
+
+                            if (data.state === 'completed') {
+                                clearInterval(pollInterval);
+                                
+                                hideAll();
+                                document.getElementById('videoPlayer').src = data.assets.video;
+                                document.getElementById('promptDisplay').textContent = `"${prompt}"`;
+                                document.getElementById('result').classList.add('active');
+                                
+                            } else if (data.state === 'failed') {
+                                clearInterval(pollInterval);
+                                throw new Error(`Generation failed: ${data.failure_reason || 'Unknown error'}`);
+                            }
+                        }
+
+                        if (attempts >= maxAttempts) {
                             clearInterval(pollInterval);
-                            hideAll();
-                            document.getElementById('videoPlayer').src = data.assets.video;
-                            document.getElementById('promptDisplay').textContent = `"${prompt}"`;
-                            document.getElementById('result').classList.add('active');
-                            document.getElementById('videoPlayer').focus();
-                        } else if (data.state === 'failed') {
+                            throw new Error('Generation timed out');
+                        }
+
+                    } catch (pollError) {
+                        if (attempts >= maxAttempts) {
                             clearInterval(pollInterval);
-                            throw new Error(`Generation failed: ${data.failure_reason || 'Unknown error'}`);
+                            throw pollError;
                         }
                     }
-                    if (attempts >= maxAttempts) {
-                        clearInterval(pollInterval);
-                        throw new Error('Generation timed out');
-                    }
-                } catch (pollError) {
-                    if (attempts >= maxAttempts) {
-                        clearInterval(pollInterval);
-                        showError(pollError.message || 'Error during polling');
-                        hideAll();
-                        document.getElementById('placeholder').style.display = 'block';
-                        isGenerating = false;
-                        btn.disabled = false;
-                        btn.textContent = '🎵 GENERATE HIP HOP VISUAL';
-                    }
-                }
-            }, 5000);
+                }, 5000);
 
-        } catch (error) {
-            hideAll();
-            showError(error.message);
-            document.getElementById('placeholder').style.display = 'block';
-        } finally {
-            isGenerating = false;
-            btn.disabled = false;
-            btn.textContent = '🎵 GENERATE HIP HOP VISUAL';
+            } catch (error) {
+                hideAll();
+                showError(error.message);
+                document.getElementById('placeholder').style.display = 'block';
+            } finally {
+                isGenerating = false;
+                btn.disabled = false;
+                btn.textContent = '🎵 GENERATE HIP HOP VISUAL';
+            }
         }
-    }
 
-    // Event listeners
-    document.getElementById('generateBtn').addEventListener('click', generateVideo);
+        // Event listeners
+        document.getElementById('generateBtn').addEventListener('click', generateVideo);
 
-    document.querySelectorAll('.preset-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            document.getElementById('prompt').value = btn.getAttribute('data-prompt');
-            btn.style.transform = 'scale(0.95)';
-            setTimeout(() => {
-                btn.style.transform = '';
-            }, 150);
-            document.getElementById('prompt').focus();
+        document.querySelectorAll('.preset-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.getElementById('prompt').value = btn.getAttribute('data-prompt');
+                btn.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    btn.style.transform = '';
+                }, 150);
+            });
         });
-    });
 
-    document.getElementById('prompt').addEventListener('keypress', (e) => {
-        if (e.key === 'Enter' && e.ctrlKey) {
-            generateVideo();
-        }
-    });
+        document.getElementById('prompt').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && e.ctrlKey) {
+                generateVideo();
+            }
+        });
 
-    // Initialize
-    document.getElementById('placeholder').style.display = 'block';
+        // Initialize
+        document.getElementById('placeholder').style.display = 'block';
     </script>
 </body>
 </html>
