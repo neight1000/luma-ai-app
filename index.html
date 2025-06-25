@@ -1,1 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luma AI Video Generator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: white;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+            font-size: 1rem;
+        }
+
+        .prompt-input {
+            min-height: 100px;
+            resize: vertical;
+            font-family: inherit;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            background: #ff6b6b;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover:not(:disabled) {
+            background: #ee5a24;
+            transform: translateY(-2px);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .status {
+            text-align: center;
+            padding: 20px;
+            display: none;
+        }
+
+        .status.active {
+            display: block;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-top: 3px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+
+        .result {
+            text-align: center;
+            display: none;
+        }
+
+        .result.active {
+            display: block;
+        }
+
+        .result video {
+            width: 100%;
+            max-width: 600px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+        }
+
+        .error {
+            background: rgba(255, 0, 0, 0.2);
+            color: #ff6b6b;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            display: none;
+        }
+
+        .error.active {
+            display: block;
+        }
+
+        .success {
+            background: rgba(0, 255, 0, 0.2);
+            color: #4caf50;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+
+        .presets {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .preset-btn {
+            padding: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .preset-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎬 Luma AI Studio</h1>
+            <p>Generate stunning 3D videos</p>
+        </div>
+
+        <div class="card">
+            <div class="form-group">
+                <label for="prompt">✨ Describe your 3D scene:</label>
+                <textarea id="prompt" class="input-field prompt-input" 
+                          placeholder="A majestic dragon soaring through clouds...">A steampunk airship flying through cloudy mountains</textarea>
+            </div>
+            
+            <button id="generateBtn" class="btn">🎬 Generate Video</button>
+
+            <div class="form-group">
+                <label>🎯 Quick Prompts:</label>
+                <div class="presets">
+                    <div class="preset-btn" data-prompt="A floating island with waterfalls in a magical sky">🏝️ Floating Island</div>
+                    <div class="preset-btn" data-prompt="A cyberpunk city with neon lights at night">🌃 Cyberpunk City</div>
+                    <div class="preset-btn" data-prompt="An underwater coral reef with colorful fish">🐠 Ocean Reef</div>
+                    <div class="preset-btn" data-prompt="A space station orbiting Earth">🚀 Space Station</div>
+                </div>
+            </div>
+            
+            <div id="error" class="error">
+                <p id="errorMessage"></p>
+            </div>
+        </div>
+
+        <div class="card">
+            <div id="status" class="status">
+                <div class="spinner"></div>
+                <p id="statusText">Generating your video...</p>
+            </div>
+
+            <div id="result" class="result">
+                <video id="videoPlayer" controls>
+                    Your browser does not support video playback.
+                </video>
+                <div class="success">
+                    <p><strong>🎉 Generation Complete!</strong></p>
+                    <p id="promptDisplay"></p>
+                </div>
+            </div>
+
+            <div id="placeholder" style="text-align: center; padding: 40px;">
+                <div style="font-size: 4rem; margin-bottom: 20px;">🎥</div>
+                <h3>Your video will appear here</h3>
+                <p>Enter a prompt and click generate!</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let isGenerating = false;
+
+        function showError(message) {
+            document.getElementById('errorMessage').textContent = message;
+            document.getElementById('error').classList.add('active');
+            setTimeout(() => {
+                document.getElementById('error').classList.remove('active');
+            }, 8000);
+        }
+
+        function hideAll() {
+            document.getElementById('status').classList.remove('active');
+            document.getElementById('result').classList.remove('active');
+            document.getElementById('error').classList.remove('active');
+            document.getElementById('placeholder').style.display = 'none';
+        }
+
+        async function generateVideo() {
+            if (isGenerating) return;
+
+            const prompt = document.getElementById('prompt').value.trim();
+            if (!prompt) {
+                showError('Please enter a prompt');
+                return;
+            }
+
+            isGenerating = true;
+            const btn = document.getElementById('generateBtn');
+            btn.disabled = true;
+            btn.textContent = '🎬 Generating...';
+
+            hideAll();
+            document.getElementById('status').classList.add('active');
+            document.getElementById('statusText').textContent = 'Starting generation...';
+
+            try {
+                // Create generation
+                const createResponse = await fetch('/api/generate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ prompt })
+                });
+
+                if (!createResponse.ok) {
+                    const error = await createResponse.json();
+                    throw new Error(error.error || 'Failed to start generation');
+                }
+
+                const { id } = await createResponse.json();
+                document.getElementById('statusText').textContent = `Generation started (ID: ${id.slice(0,8)}...)`;
+
+                // Poll for completion
+                let attempts = 0;
+                const maxAttempts = 72; // 6 minutes
+
+                const pollInterval = setInterval(async () => {
+                    attempts++;
+                    document.getElementById('statusText').textContent = 
+                        `Processing... (${attempts}/${maxAttempts}) - This can take 2-5 minutes`;
+
+                    try {
+                        const statusResponse = await fetch(`/api/status?id=${id}`);
+                        
+                        if (statusResponse.ok) {
+                            const data = await statusResponse.json();
+
+                            if (data.state === 'completed') {
+                                clearInterval(pollInterval);
+                                
+                                hideAll();
+                                document.getElementById('videoPlayer').src = data.assets.video;
+                                document.getElementById('promptDisplay').textContent = `"${prompt}"`;
+                                document.getElementById('result').classList.add('active');
+                                
+                            } else if (data.state === 'failed') {
+                                clearInterval(pollInterval);
+                                throw new Error(`Generation failed: ${data.failure_reason || 'Unknown error'}`);
+                            }
+                        }
+
+                        if (attempts >= maxAttempts) {
+                            clearInterval(pollInterval);
+                            throw new Error('Generation timed out');
+                        }
+
+                    } catch (pollError) {
+                        if (attempts >= maxAttempts) {
+                            clearInterval(pollInterval);
+                            throw pollError;
+                        }
+                    }
+                }, 5000);
+
+            } catch (error) {
+                hideAll();
+                showError(error.message);
+                document.getElementById('placeholder').style.display = 'block';
+            } finally {
+                isGenerating = false;
+                btn.disabled = false;
+                btn.textContent = '🎬 Generate Video';
+            }
+        }
+
+        document.getElementById('generateBtn').addEventListener('click', generateVideo);
+
+        document.querySelectorAll('.preset-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.getElementById('prompt').value = btn.getAttribute('data-prompt');
+            });
+        });
+
+        document.getElementById('placeholder').style.display = 'block';
+    </script>
+</body>
+</html>
