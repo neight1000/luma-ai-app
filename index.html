@@ -247,8 +247,8 @@
 
         .preset-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-            gap: 10px;
+            grid-template-columns: 1fr;
+            gap: 8px;
             width: 100%;
         }
 
@@ -256,11 +256,12 @@
             background: #222;
             border: 2px solid #555;
             color: #fff;
-            padding: 10px 20px;
+            padding: 8px 12px;
             cursor: pointer;
             transition: all 0.3s;
             font-family: 'Orbitron', monospace;
             text-align: center;
+            font-size: 0.8rem;
         }
 
         .preset-btn:hover {
@@ -353,23 +354,25 @@
         @media (max-width: 768px) {
             .card-grid {
                 flex-direction: column;
+                height: calc(100vh - 80px);
             }
             .prompt-panel {
-                width: 100vw;
-                height: 50vh;
+                width: 100%;
+                height: 50%;
                 border-right: none;
                 border-bottom: 2px solid #333;
             }
             .visual-panel {
-                height: 50vh;
+                width: 100%;
+                height: 50%;
             }
             .preset-grid {
-                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+                grid-template-columns: 1fr 1fr;
                 gap: 5px;
             }
             .preset-btn {
-                padding: 8px;
-                font-size: 0.8rem;
+                padding: 6px 8px;
+                font-size: 0.7rem;
             }
         }
     </style>
